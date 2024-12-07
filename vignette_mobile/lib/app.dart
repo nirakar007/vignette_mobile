@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vignette_mobile/view/login_screen.dart';
+import 'package:vignette_mobile/view/registration_screen.dart';
 import 'package:vignette_mobile/viewmodel/login_viewmodel.dart';
+import 'package:vignette_mobile/viewmodel/registration_viewmodel.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,17 +11,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        ],
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => RegistrationViewModel()), // Add this line
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/register',
         routes: {
-          '/': (context) => LoginScreen(),
+          '/login': (context) => LoginScreen(),
+          '/register': (context) => RegistrationScreen(),
         },
       ),
     );
-
   }
 }

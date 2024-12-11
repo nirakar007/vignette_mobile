@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:vignette_mobile/view/login_choose_account.dart';
 import 'package:vignette_mobile/view/login_screen.dart';
 import 'package:vignette_mobile/view/registration_screen.dart';
@@ -13,12 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        ChangeNotifierProvider(create: (_) => RegistrationViewModel()),
-      ],
-      child: MaterialApp(
+
+      return MaterialApp(
         theme: ThemeData(
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         ),
@@ -30,7 +25,6 @@ class MyApp extends StatelessWidget {
           '/main':(context) => const MainPage(),
           '/login_switch': (context) => const LoginOptionsScreen(),
         },
-      ),
-    );
+      );
   }
 }

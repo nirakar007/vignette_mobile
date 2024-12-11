@@ -1,27 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:vignette_mobile/viewmodel/registration_viewmodel.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 
-class RegistrationScreen extends StatelessWidget {
-  RegistrationScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  @override
+  _RegistrationScreenState createState() => _RegistrationScreenState();
+}
 
+class _RegistrationScreenState extends State<RegistrationScreen> {
   // Controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
+  bool isLoading = false; // To manage loading state
+  bool termsAgreed = false; // To track terms agreement
+
+  // Function to show a SnackBar
+  void showSnackbar(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(10),
+      ),
+    );
+  }
+
+  // Simulate the registration process
+  Future<void> register(String email, String password, String confirmPassword) async {
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty || !termsAgreed) {
+      showSnackbar("All fields must be filled and terms must be agreed.", Colors.red);
+      return;
+    }
+
+    if (password != confirmPassword) {
+      showSnackbar("Passwords do not match.", Colors.red);
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulate a network call
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      isLoading = false;
+    });
+
+    showSnackbar("Registration Successful", Colors.green);
+    Navigator.pushReplacementNamed(context, "/login");
+  }
+
   @override
   Widget build(BuildContext context) {
-    final registrationViewModel = Provider.of<RegistrationViewModel>(context);
-    bool termsAgreed = false;
-
     return Scaffold(
       appBar: AppBar(
-        title: SvgPicture.asset(
-          'assets/logo/logo_vignette.svg',
-        ),
+        // title: SvgPicture.asset(
+        //   'assets/logo/logo_vignette.svg',
+        // ),
         centerTitle: true,
       ),
       body: Padding(
@@ -92,7 +131,6 @@ class RegistrationScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-
                 // Biometric Registration Section
                 Column(
                   children: [
@@ -103,11 +141,7 @@ class RegistrationScreen extends StatelessWidget {
                         color: Colors.black87,
                       ),
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Biometric Registration Tapped!'),
-                          ),
-                        );
+                        showSnackbar("Biometric Registration Tapped!", Colors.blue);
                       },
                     ),
                     const Text(
@@ -117,13 +151,16 @@ class RegistrationScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
+
                 // Terms & Conditions Checkbox
                 Row(
                   children: [
                     Checkbox(
                       value: termsAgreed,
                       onChanged: (value) {
-                        termsAgreed = value ?? false;
+                        setState(() {
+                          termsAgreed = value ?? false;
+                        });
                       },
                     ),
                     const Expanded(
@@ -151,62 +188,16 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     backgroundColor: Colors.black87,
                   ),
-                  onPressed: registrationViewModel.isLoading
+                  onPressed: isLoading
                       ? null
                       : () async {
                     final email = emailController.text.trim();
                     final password = passwordController.text.trim();
                     final confirmPassword = confirmPasswordController.text.trim();
 
-                    if (email.isEmpty ||
-                        password.isEmpty ||
-                        confirmPassword.isEmpty ||
-                        !termsAgreed) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("All fields must be filled and terms must be agreed.",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      return;
-                    }
-
-                    if (password != confirmPassword) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Passwords do not match.",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      return;
-                    }
-
-                    try {
-                      await registrationViewModel.register(
-                          email, password, confirmPassword);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Registration Successful",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                      Navigator.pushReplacementNamed(context, "/login");
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(e.toString())),
-                      );
-                    }
+                    await register(email, password, confirmPassword);
                   },
-                  child: registrationViewModel.isLoading
+                  child: isLoading
                       ? const CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   )

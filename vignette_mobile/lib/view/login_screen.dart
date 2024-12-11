@@ -1,35 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import '../viewmodel/login_viewmodel.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isLoading = false; // To track loading state
+
+  // Simulating a login function
+  Future<void> login(String email, String password) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulating a delay for login process
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      isLoading = false;
+    });
+
+    // Simulating login result
+    if (email == "test@test.com" && password == "password123") {
+      showSnackbar('Login Successful!', Colors.green);
+    } else {
+      showSnackbar('Login Failed. Try again.', Colors.red);
+    }
+  }
+
+  // Function to show a floating SnackBar
+  void showSnackbar(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(10),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final loginViewModel = Provider.of<LoginViewModel>(context);
-
-    // Function to show a floating SnackBar
-    void showSnackbar(String message, Color color) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: color,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(10),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
+        // Uncomment and customize if you need a logo in the AppBar
         // centerTitle: true,
         // title: SvgPicture.asset(
         //   'assets/logo/logo_vignette.svg',
         //   semanticsLabel: 'App Logo',
-        //   height: 32, // Adjust size as needed
+        //   height: 32,
         // ),
       ),
       body: Padding(
@@ -41,10 +66,10 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo Section
-                SvgPicture.asset(
-                  'assets/logo/logo_vignette.svg',
-                  height: 80,
-                ),
+                // SvgPicture.asset(
+                //   'assets/logo/logo_vignette.svg',
+                //   height: 80,
+                // ),
                 const SizedBox(height: 15),
 
                 // Welcome Text
@@ -110,11 +135,9 @@ class LoginScreen extends StatelessWidget {
                       child: const Text(
                         'Register',
                         style: TextStyle(
-                            color: Colors.lightGreen,
-                            fontWeight:FontWeight.w800
-
+                          color: Colors.lightGreen,
+                          fontWeight: FontWeight.w800,
                         ),
-
                       ),
                     ),
                   ],
@@ -133,7 +156,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                     backgroundColor: Colors.black87,
                   ),
-                  onPressed: () async {
+                  onPressed: isLoading
+                      ? null
+                      : () async {
                     String email = emailController.text.trim();
                     String password = passwordController.text.trim();
 
@@ -143,18 +168,10 @@ class LoginScreen extends StatelessWidget {
                       return;
                     }
 
-                    await loginViewModel.login(email, password);
-
-                    // Check login result and show Snackbar accordingly
-                    if (loginViewModel.isLoading) {
-                      showSnackbar('Logging in...', Colors.blue);
-                    } else if (loginViewModel.isLoading) {
-                      showSnackbar('Login Successful!', Colors.green);
-                    } else {
-                      showSnackbar('Login Failed. Try again.', Colors.red);
-                    }
+                    // Call login function
+                    await login(email, password);
                   },
-                  child: loginViewModel.isLoading
+                  child: isLoading
                       ? const CircularProgressIndicator(
                     color: Colors.white,
                   )

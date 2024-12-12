@@ -47,141 +47,144 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Background Image
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/registration_bg.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 24),
 
-              // Input fields
-              _buildTextField(
-                  fullNameController, '*enter full name', isFullNameEmpty),
-              const SizedBox(height: 16),
-              _buildTextField(emailController, '*enter email', isEmailEmpty),
-              const SizedBox(height: 16),
-              _buildDropdownField(
-                  countryController, '*select country', isCountryEmpty),
-              const SizedBox(height: 16),
-              _buildTextField(
-                  passwordController, '*enter password', isPasswordEmpty,
-                  obscureText: true),
-              const SizedBox(height: 16),
-              _buildTextField(confirmPasswordController, '*confirm password',
-                  isConfirmPasswordEmpty,
-                  obscureText: true),
-              const SizedBox(height: 16),
+            // Input fields
+            _buildTextField(
+                fullNameController, '*enter full name', isFullNameEmpty),
+            const SizedBox(height: 16),
+            _buildTextField(emailController, '*enter email', isEmailEmpty),
+            const SizedBox(height: 16),
+            _buildDropdownField(
+                countryController, '*select country', isCountryEmpty),
+            const SizedBox(height: 16),
+            _buildTextField(
+                passwordController, '*enter password', isPasswordEmpty,
+                obscureText: true),
+            const SizedBox(height: 16),
+            _buildTextField(confirmPasswordController, '*confirm password',
+                isConfirmPasswordEmpty,
+                obscureText: true),
+            const SizedBox(height: 16),
 
-              // Checkbox for email updates
-              Row(
-                children: [
-                  Checkbox(
-                    value: false,
-                    onChanged: (value) {
-                      // Handle checkbox state
+            // Checkbox for email updates
+            Row(
+              children: [
+                Checkbox(
+                  value: false,
+                  onChanged: (value) {
+                    // Handle checkbox state
+                  },
+                ),
+                const Text('Send email of latest updates'),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Biometric login setup
+            ElevatedButton.icon(
+              onPressed: () {
+                // Handle biometric setup
+                showMySnackBar(
+                    context: context, message: "Biometric option pressed!");
+              },
+              icon: const Icon(Icons.fingerprint, size: 24),
+              label: const Text('Set up biometric login'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Register button
+            ElevatedButton(
+              onPressed: registrationViewModel.isLoading
+                  ? null
+                  : () async {
+                      setState(() {
+                        isFullNameEmpty =
+                            fullNameController.text.trim().isEmpty;
+                        isEmailEmpty = emailController.text.trim().isEmpty;
+                        isCountryEmpty = countryController.text.trim().isEmpty;
+                        isPasswordEmpty =
+                            passwordController.text.trim().isEmpty;
+                        isConfirmPasswordEmpty =
+                            confirmPasswordController.text.trim().isEmpty;
+                      });
+
+                      if (isFullNameEmpty ||
+                          isEmailEmpty ||
+                          isCountryEmpty ||
+                          isPasswordEmpty ||
+                          isConfirmPasswordEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'All fields must be filled.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+
+                      try {
+                        await registrationViewModel.register(
+                            emailController.text.trim(),
+                            passwordController.text.trim(),
+                            confirmPasswordController.text.trim());
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Registration Successful',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                        Navigator.pushReplacementNamed(context, "/login");
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.toString())),
+                        );
+                      }
                     },
-                  ),
-                  const Text('Send email of latest updates'),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // Biometric login setup
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Handle biometric setup
-                  showMySnackBar(
-                      context: context, message: "Biometric option pressed!");
-                },
-                icon: const Icon(Icons.fingerprint, size: 24),
-                label: const Text('Set up biometric login'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // Register button
-              ElevatedButton(
-                onPressed: registrationViewModel.isLoading
-                    ? null
-                    : () async {
-                        setState(() {
-                          isFullNameEmpty =
-                              fullNameController.text.trim().isEmpty;
-                          isEmailEmpty = emailController.text.trim().isEmpty;
-                          isCountryEmpty =
-                              countryController.text.trim().isEmpty;
-                          isPasswordEmpty =
-                              passwordController.text.trim().isEmpty;
-                          isConfirmPasswordEmpty =
-                              confirmPasswordController.text.trim().isEmpty;
-                        });
-
-                        if (isFullNameEmpty ||
-                            isEmailEmpty ||
-                            isCountryEmpty ||
-                            isPasswordEmpty ||
-                            isConfirmPasswordEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'All fields must be filled.',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
-
-                        try {
-                          await registrationViewModel.register(
-                              emailController.text.trim(),
-                              passwordController.text.trim(),
-                              confirmPasswordController.text.trim());
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Registration Successful',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                          Navigator.pushReplacementNamed(context, "/login");
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(e.toString())),
-                          );
-                        }
-                      },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: registrationViewModel.isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
-                    : const Text('Register'),
-              ),
-            ],
-          ),
+              child: registrationViewModel.isLoading
+                  ? const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    )
+                  : const Text('Register'),
+            ),
+          ],
         ),
       ),
     );
@@ -233,8 +236,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        contentPadding:
-            const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(16),
       ),
     );
   }

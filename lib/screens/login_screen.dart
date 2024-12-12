@@ -61,6 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
               SafeArea(
                 child: Column(
                   children: [
+                    // Background Image
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/login_bg.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     SvgPicture.asset(
                       'assets/logo/logo.svg',
                       width: 50,
@@ -179,6 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => validateAndLogin(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                       minimumSize: const Size(200, 60),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

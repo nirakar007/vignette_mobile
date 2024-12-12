@@ -36,7 +36,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // Field focus flags
   bool isFullNameEmpty = false;
   bool isEmailEmpty = false;
-  bool isPhoneEmpty = false;
   bool isCountryEmpty = false;
   bool isPasswordEmpty = false;
   bool isConfirmPasswordEmpty = false;
@@ -235,7 +234,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           borderSide: BorderSide.none,
         ),
         contentPadding:
-            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            const EdgeInsets.all(16),
       ),
     );
   }

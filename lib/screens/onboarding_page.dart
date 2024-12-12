@@ -80,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               _onboardingData.length,
               (index) => AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
+                margin: const EdgeInsets.all(16),
                 height: 8,
                 width: _currentPage == index ? 16 : 8,
                 decoration: BoxDecoration(

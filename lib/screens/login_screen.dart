@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.black,
                   ),
                   const Text(
-                    'use biometrics to login',
+                    'Use biometrics to login',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:vignette__mobile/common/snackBar.dart';
 import 'package:vignette__mobile/viewmodel/registration_viewmodel.dart';
@@ -58,21 +59,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
             const SizedBox(height: 24),
+            SvgPicture.asset(
+              'assets/logo/logo.svg',
+              width: 50,
+              height: 50,
+            ),
+            const Text("Sign Up"),
 
             // Input fields
             _buildTextField(
-                fullNameController, '*enter full name', isFullNameEmpty),
+                fullNameController, 'Enter full name', isFullNameEmpty),
             const SizedBox(height: 16),
-            _buildTextField(emailController, '*enter email', isEmailEmpty),
+            _buildTextField(emailController, 'Enter email', isEmailEmpty),
             const SizedBox(height: 16),
             _buildDropdownField(
-                countryController, '*select country', isCountryEmpty),
+                countryController, 'Select country', isCountryEmpty),
             const SizedBox(height: 16),
             _buildTextField(
-                passwordController, '*enter password', isPasswordEmpty,
+                passwordController, 'Enter password', isPasswordEmpty,
                 obscureText: true),
             const SizedBox(height: 16),
-            _buildTextField(confirmPasswordController, '*confirm password',
+            _buildTextField(confirmPasswordController, 'Confirm password',
                 isConfirmPasswordEmpty,
                 obscureText: true),
             const SizedBox(height: 16),
@@ -96,14 +103,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onPressed: () {
                 // Handle biometric setup
                 showMySnackBar(
-                    context: context, message: "Biometric option pressed!");
+                    context: context,
+                    message: "Biometric option pressed!",
+                    color: Colors.grey);
               },
               icon: const Icon(Icons.fingerprint, size: 24),
               label: const Text('Set up biometric login'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.all(16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

@@ -19,9 +19,15 @@ class MyApp extends StatelessWidget {
   Future<String> determineInitialRoute() async {
     final prefs = await SharedPreferences.getInstance();
     final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+    final isFirstLoginComplete = prefs.getBool('isFirstLoginComplete') ?? false;
 
-    // If onboarding has been seen, go to the registration screen, otherwise show onboarding
-    return hasSeenOnboarding ? '/register' : '/onboarding';
+    if (!hasSeenOnboarding) {
+      return '/onboarding';
+    } else if (!isFirstLoginComplete) {
+      return '/register';
+    } else {
+      return '/returning-login'; // Second login page for returning users
+    }
   }
 
   @override
@@ -30,7 +36,6 @@ class MyApp extends StatelessWidget {
       future: determineInitialRoute(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show a loading screen while determining the initial route
           return const MaterialApp(
               home: Center(child: CircularProgressIndicator()));
         }
@@ -53,10 +58,11 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: initialRoute,
             routes: {
-              '/onboarding': (context) => OnboardingScreen(),
+              '/onboarding': (context) => const OnboardingScreen(),
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegistrationScreen(),
               '/dashboard': (context) => const Dashboard(),
+              '/returning-login': (context) => const ReturningLoginScreen(),
             },
           ),
         );

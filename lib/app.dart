@@ -6,6 +6,7 @@ import 'package:vignette__mobile/screens/dashboard.dart';
 import 'package:vignette__mobile/screens/login_screen.dart';
 import 'package:vignette__mobile/screens/registration_screen.dart';
 import 'package:vignette__mobile/screens/onboarding_screen.dart'; // Add this import
+import 'package:vignette__mobile/screens/returning_login_screen.dart';
 import 'package:vignette__mobile/viewmodel/login_viewmodel.dart';
 import 'package:vignette__mobile/viewmodel/registration_viewmodel.dart';
 
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: initialRoute,
             routes: {
-              '/onboarding': (context) => const OnboardingScreen(),
+              '/onboarding': (context) => OnboardingScreen(),
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegistrationScreen(),
               '/dashboard': (context) => const Dashboard(),

@@ -46,11 +46,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      _onboardingData[index]['image']!,
-                      width: 200,
-                      height: 200,
-                    ),
                     const SizedBox(height: 20),
                     Text(
                       _onboardingData[index]['title']!,
@@ -103,6 +98,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       );
                     },
               style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),

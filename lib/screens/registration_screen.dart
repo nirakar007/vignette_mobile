@@ -47,7 +47,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nirakar"),
+        title: const Text("Nirakar"),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(

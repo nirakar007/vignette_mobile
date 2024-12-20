@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vignette__mobile/screens/home_screen.dart';
+import 'package:vignette__mobile/screens/user_boards.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -8,6 +10,20 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  int _selectedIndex = 0; // Keep track of the selected index
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  List<Widget> lstBottomScreen = [
+    const HomeScreen(),
+    const UserBoards(),
+  ];
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

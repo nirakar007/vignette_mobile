@@ -14,8 +14,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String selectedSortOption = 'Date'; // Default sorting option
+  String searchQuery = ''; // To store the search query
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600; // Check if the device is a tablet
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -31,11 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               padding: const EdgeInsets.all(16),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment
-                    .center, // Ensures the Row takes only needed space
                 children: [
-                  // premium card ad
+                  // Premium card ad
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,22 +55,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           'Have more Boards to work on! Multiple times a day.',
                           style: TextStyle(color: Colors.white70, fontSize: 14),
                         ),
-                        const SizedBox(
-                            height: 12), // Adds spacing between text and button
+                        const SizedBox(height: 12),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const PremiumPurchaseScreen(), // Replace `TargetPage` with your desired page widget
+                                    const PremiumPurchaseScreen(),
                               ),
                             );
-                            // Handle the "Learn More" button action
                             showMySnackBar(
-                                context: context,
-                                message: "learn more button pressed",
-                                color: Colors.black);
+                              context: context,
+                              message: "Learn more button pressed",
+                              color: Colors.black,
+                            );
                           },
                           child: const Text(
                             'Learn More',
@@ -81,13 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
-                  const SizedBox(width: 30), // Spacing between text and image
+                  const SizedBox(width: 30),
                   Flexible(
                     child: SvgPicture.asset(
                       'assets/images/home_screen/prem_ad.svg',
-                      // 'assets/logo/logo.svg',
-                      // 'assets/images/p1.jpg',
                       width: 150,
                       height: 150,
                     ),
@@ -107,17 +105,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const Spacer(),
                 DropdownButton<String>(
-                  value:
-                      selectedSortOption, // A variable to hold the selected value
+                  value: selectedSortOption,
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedSortOption = newValue!;
-                      // Add logic to sort based on the selected value
-                      if (selectedSortOption == 'Date') {
-                        // Sort by date logic
-                      } else if (selectedSortOption == 'Favourites') {
-                        // Sort by favourites logic
-                      }
+                      // Add sorting logic here
                     });
                   },
                   items: <String>['Date', 'Favourites']
@@ -127,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(value),
                     );
                   }).toList(),
-                  underline: Container(), // Remove the default underline
-                  icon: const Icon(Icons.sort), // Sort icon
+                  underline: Container(),
+                  icon: const Icon(Icons.sort),
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
@@ -137,7 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
-                    // Handle the click event
                     showMySnackBar(
                       context: context,
                       color: Colors.grey,
@@ -149,32 +140,49 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             const SizedBox(height: 8),
-            const Text(
-              'Your desk is empty. Add a blank notebook or choose from templates.',
-              style: TextStyle(color: Colors.black54, fontSize: 14),
+
+            // Search Bar
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: 'Search boards...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
+
             const SizedBox(height: 20),
 
             // Grid of Cards
             GridView.count(
               shrinkWrap: true,
-              crossAxisCount: 2,
+              crossAxisCount: isTablet ? 3 : 2, // Adjust columns for tablets
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                // _buildCard(Icons.person, 'Personal Notebook'),
-                // // _buildCard(Icons.article, 'Blog Post'),
-                // _buildCard(Icons.lock, 'Secured Notes',),
-                _buildCard(Icons.person, 'Personal Notebook',
-                    const PersonalNotebook()),
-                _buildCard(Icons.lock, 'Secured Notes', const SecuredNotes()),
+                if (_matchesSearch('Personal Notebook'))
+                  _buildCard(Icons.person, 'Personal Notebook',
+                      const PersonalNotebook()),
+                if (_matchesSearch('Secured Notes'))
+                  _buildCard(Icons.lock, 'Secured Notes', const SecuredNotes()),
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  // Search filtering
+  bool _matchesSearch(String title) {
+    return title.toLowerCase().contains(searchQuery);
   }
 
   Widget _buildCard(IconData icon, String title, Widget targetPage) {
@@ -185,8 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
           MaterialPageRoute(builder: (context) => targetPage),
         );
       },
-      borderRadius:
-          BorderRadius.circular(12), // Ripple effect within rounded edges
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade300),
@@ -208,9 +215,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  void main() => runApp(const MaterialApp(
-        home: HomeScreen(),
-        debugShowCheckedModeBanner: false,
-      ));
 }

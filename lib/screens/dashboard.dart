@@ -24,8 +24,8 @@ class _DashboardState extends State<Dashboard> {
 
   List<Widget> lstBottomScreen = [
     const HomeScreen(),
+    const NewBoard(),
     const UserBoards(),
-    const NewBoard()
   ];
 
   @override
@@ -37,8 +37,8 @@ class _DashboardState extends State<Dashboard> {
           children: [
             SvgPicture.asset(
               'assets/logo/logo.svg',
-              width: 50,
-              height: 50,
+              width: 35,
+              height: 35,
             ),
             IconButton(
               icon: const Icon(Icons.settings),

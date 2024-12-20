@@ -10,6 +10,13 @@ class PersonalNotebook extends StatefulWidget {
 class _PersonalNotebookState extends State<PersonalNotebook> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text("Personal Notebook")),
+      body: const Column(
+        children: [
+          Text("This is Personal notebook"),
+        ],
+      ),
+    );
   }
 }

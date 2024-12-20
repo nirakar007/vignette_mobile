@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:vignette__mobile/core/common/snackBar.dart';
 import 'package:vignette__mobile/screens/home_screen.dart';
 import 'package:vignette__mobile/screens/new_board.dart';
 import 'package:vignette__mobile/screens/user_boards.dart';
@@ -30,29 +32,59 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: SvgPicture.asset(
-          'assets/logo/logo.svg',
-          width: 50,
-          height: 50,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              'assets/logo/logo.svg',
+              width: 50,
+              height: 50,
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                // Handle the click event
+                showMySnackBar(
+                  context: context,
+                  color: Colors.grey,
+                  message: 'settings',
+                );
+              },
+            ),
+          ],
         ),
       ),
       body: lstBottomScreen[
           _selectedIndex], // Use the selected index to display the correct screen
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
+      bottomNavigationBar: SnakeNavigationBar.color(
+        snakeViewColor: Colors.black,
+        // height: 260,
+        // type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.white,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        unselectedItemColor: Colors.blueGrey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+              size: 25,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              size: 25,
+            ),
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
+            icon: Icon(
+              Icons.list,
+              size: 25,
+            ),
             label: 'Boards',
           ),
         ],

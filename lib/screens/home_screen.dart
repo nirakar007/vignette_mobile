@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:vignette__mobile/core/common/snackBar.dart';
 import 'package:vignette__mobile/screens/personal_notebook.dart';
+import 'package:vignette__mobile/screens/premium_purchase_screen.dart';
+import 'package:vignette__mobile/screens/secured_notes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String selectedSortOption = 'Date'; // Default sorting option
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,20 +24,23 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // "More Boards" Card
             Container(
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(16),
               ),
               padding: const EdgeInsets.all(16),
               child: Row(
-                mainAxisSize:
-                    MainAxisSize.min, // Ensures the Row takes only needed space
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment
+                    .center, // Ensures the Row takes only needed space
                 children: [
-                  const Expanded(
+                  // premium card ad
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'More Boards',
                           style: TextStyle(
                             color: Colors.white,
@@ -41,21 +48,48 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
+                        const SizedBox(height: 8),
+                        const Text(
                           'Have more Boards to work on! Multiple times a day.',
                           style: TextStyle(color: Colors.white70, fontSize: 14),
+                        ),
+                        const SizedBox(
+                            height: 12), // Adds spacing between text and button
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PremiumPurchaseScreen(), // Replace `TargetPage` with your desired page widget
+                              ),
+                            );
+                            // Handle the "Learn More" button action
+                            showMySnackBar(
+                                context: context,
+                                message: "learn more button pressed",
+                                color: Colors.black);
+                          },
+                          child: const Text(
+                            'Learn More',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16), // Spacing between text and image
+
+                  const SizedBox(width: 30), // Spacing between text and image
                   Flexible(
-                    child: Image.asset(
-                      'assets/images/home_screen/assetsimageshome_screenpersonal_note_illustration.png', // Your asset path
-                      width: 80, // Set a fixed width
-                      height: 80, // Set a fixed height
-                      fit: BoxFit.cover,
+                    child: SvgPicture.asset(
+                      'assets/images/home_screen/prem_ad.svg',
+                      // 'assets/logo/logo.svg',
+                      // 'assets/images/p1.jpg',
+                      width: 150,
+                      height: 150,
                     ),
                   ),
                 ],
@@ -72,6 +106,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
+                DropdownButton<String>(
+                  value:
+                      selectedSortOption, // A variable to hold the selected value
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedSortOption = newValue!;
+                      // Add logic to sort based on the selected value
+                      if (selectedSortOption == 'Date') {
+                        // Sort by date logic
+                      } else if (selectedSortOption == 'Favourites') {
+                        // Sort by favourites logic
+                      }
+                    });
+                  },
+                  items: <String>['Date', 'Favourites']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  underline: Container(), // Remove the default underline
+                  icon: const Icon(Icons.sort), // Sort icon
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                ),
                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
@@ -106,14 +168,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 // _buildCard(Icons.lock, 'Secured Notes',),
                 _buildCard(Icons.person, 'Personal Notebook',
                     const PersonalNotebook()),
+                _buildCard(Icons.lock, 'Secured Notes', const SecuredNotes()),
               ],
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
       ),
     );
   }

@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
               home: Center(child: CircularProgressIndicator()));
         }
 
-        final initialRoute = snapshot.data ?? '/register';
+        final initialRoute = snapshot.data ?? '/dashboard';
 
         return MultiProvider(
           providers: [
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: initialRoute,
             routes: {
-              '/onboarding': (context) => OnboardingScreen(),
+              '/onboarding': (context) => const OnboardingScreen(),
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegistrationScreen(),
               '/dashboard': (context) => const Dashboard(),

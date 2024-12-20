@@ -35,7 +35,7 @@ class _SecuredNotesState extends State<SecuredNotes> {
         child: _isAuthenticated
             ? const SecuredContent() // Replace with your actual secured content
             : Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

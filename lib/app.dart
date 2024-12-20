@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vignette__mobile/core/app_theme/app_theme.dart';
 import 'package:vignette__mobile/screens/dashboard.dart';
 import 'package:vignette__mobile/screens/login_screen.dart';
-import 'package:vignette__mobile/screens/registration_screen.dart';
 import 'package:vignette__mobile/screens/onboarding_screen.dart'; // Add this import
+import 'package:vignette__mobile/screens/registration_screen.dart';
 import 'package:vignette__mobile/screens/returning_login_screen.dart';
 import 'package:vignette__mobile/viewmodel/login_viewmodel.dart';
 import 'package:vignette__mobile/viewmodel/registration_viewmodel.dart';
@@ -50,12 +50,7 @@ class MyApp extends StatelessWidget {
           ],
           child: MaterialApp(
             title: 'Vignette',
-            theme: ThemeData(
-              textTheme:
-                  GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
-              primaryTextTheme: GoogleFonts.poppinsTextTheme(
-                  Theme.of(context).primaryTextTheme),
-            ),
+            theme: getApplicationTheme(),
             debugShowCheckedModeBanner: false,
             initialRoute: initialRoute,
             routes: {

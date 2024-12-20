@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:vignette__mobile/screens/home_screen.dart';
+import 'package:vignette__mobile/screens/new_board.dart';
 import 'package:vignette__mobile/screens/user_boards.dart';
 
 class Dashboard extends StatefulWidget {
@@ -21,62 +23,41 @@ class _DashboardState extends State<Dashboard> {
   List<Widget> lstBottomScreen = [
     const HomeScreen(),
     const UserBoards(),
+    const NewBoard()
   ];
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Welcome to the Dashboard",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: List.generate(4, (index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 4,
-                    child: InkWell(
-                      onTap: () {
-                        // Placeholder action
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Tapped on item $index')),
-                        );
-                      },
-                      child: Center(
-                        child: Text(
-                          'Feature ${index + 1}',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ],
+        title: SvgPicture.asset(
+          'assets/logo/logo.svg',
+          width: 50,
+          height: 50,
         ),
+      ),
+      body: lstBottomScreen[
+          _selectedIndex], // Use the selected index to display the correct screen
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Add',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Boards',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

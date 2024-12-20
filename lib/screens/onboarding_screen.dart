@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -102,15 +104,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         curve: Curves.easeInOut,
                       );
                     },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
+              // style: ElevatedButton.styleFrom(
+              //   backgroundColor: Colors.black,
+              //   foregroundColor: Colors.white,
+              //   minimumSize: const Size(double.infinity, 50),
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(25),
 
-                ),
-              ),
+              //   ),
+              // ),
               child: Text(
                 _currentPage == _onboardingData.length - 1
                     ? 'Get Started'

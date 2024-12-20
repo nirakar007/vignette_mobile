@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vignette__mobile/common/snackBar.dart';
+import 'package:vignette__mobile/core/common/snackBar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

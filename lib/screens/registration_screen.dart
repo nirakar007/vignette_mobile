@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:vignette__mobile/common/snackBar.dart';
+import 'package:vignette__mobile/core/common/snackBar.dart';
 import 'package:vignette__mobile/viewmodel/registration_viewmodel.dart';
 
 class RegistrationScreen extends StatefulWidget {

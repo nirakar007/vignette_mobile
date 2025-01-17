@@ -20,4 +20,6 @@ class BoardItemHiveModel extends Equatable {
 
   @override
   List<Object?> get props => [content, positionX, positionY];
+
+  static toEntityList(List<BoardItemHiveModel> items) {}
 }

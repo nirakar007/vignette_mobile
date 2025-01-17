@@ -27,7 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _onGetStarted() {
     Navigator.pushReplacementNamed(
-        context, '/dashboard'); // Replace with your login route
+        context, '/login'); // Replace with your login route
   }
 
   @override

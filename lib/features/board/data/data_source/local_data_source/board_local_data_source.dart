@@ -13,12 +13,17 @@ class BoardLocalDataSource implements IBoardDataSource {
   }
 
   @override
-  Future<List<BoardEntity>> getBoards() {
+  Future<BoardEntity> updateBoard(BoardEntity board, String boardId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<BoardEntity> updateBoard(BoardEntity board, String boardId) {
+  Future<List<BoardEntity>> getAllBoards() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<BoardEntity>> getBoard(String boardId) {
     throw UnimplementedError();
   }
 }

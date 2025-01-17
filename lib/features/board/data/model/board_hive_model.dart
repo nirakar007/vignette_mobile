@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
+import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart';
 
 part 'board_hive_model.g.dart';
 
@@ -31,7 +33,45 @@ class BoardHiveModel extends Equatable {
     required this.updatedAt,
   });
 
+  // initial constructor
+  BoardHiveModel.initial()
+      : boardId = '',
+        boardName = '',
+        description = '',
+        items = const [],
+        userId = '',
+        createdAt = DateTime.now(),
+        updatedAt = DateTime.now();
+
+  // from entity
+  factory BoardHiveModel.fromEntity(Map<String, dynamic> entity) {
+    return BoardHiveModel(
+      boardId: entity['boardId'],
+      boardName: entity['boardName'],
+      description: entity['description'],
+      items: entity['items'],
+      userId: entity['userId'],
+      createdAt: entity['createdAt'],
+      updatedAt: entity['updatedAt'],
+    );
+  }
+
+  // to entity
+  BoardEntity toEntity() {
+    return BoardEntity(
+      boardId: boardId,
+      boardName: boardName,
+      description: description,
+      items: BoardItemHiveModel.toEntityList(items),
+      userId: userId,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
+
   @override
   List<Object?> get props =>
       [boardId, boardName, description, items, userId, createdAt, updatedAt];
+
+  static toEntityList(List<String>? boards) {}
 }

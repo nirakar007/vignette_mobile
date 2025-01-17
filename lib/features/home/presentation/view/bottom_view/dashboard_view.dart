@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:vignette__mobile/core/common/snackBar.dart';
-import 'package:vignette__mobile/screens/home_screen.dart';
+import 'package:vignette__mobile/features/home/presentation/view/home_view.dart';
 import 'package:vignette__mobile/screens/new_board.dart';
 import 'package:vignette__mobile/screens/user_boards.dart';
 
@@ -44,11 +43,11 @@ class _DashboardState extends State<Dashboard> {
               icon: const Icon(Icons.settings),
               onPressed: () {
                 // Handle the click event
-                showMySnackBar(
-                  context: context,
-                  color: Colors.grey,
-                  message: 'settings',
-                );
+                // showMySnackBar(
+                //   context: context,
+                //   color: Colors.grey,
+                //   message: 'settings',
+                // );
               },
             ),
           ],

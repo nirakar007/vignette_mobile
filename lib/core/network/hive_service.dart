@@ -15,7 +15,6 @@ class HiveService {
   }
 
   // Auth Queries
-
   // register user
   Future<void> register(AuthHiveModel auth) async {
     var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.userBox);

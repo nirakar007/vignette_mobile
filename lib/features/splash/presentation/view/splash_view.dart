@@ -1,56 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vignette__mobile/app/di/di.dart';
 import 'package:vignette__mobile/features/splash/presentation/view_model/splash_cubit.dart';
+// ... other imports
 
 class SplashScreen extends StatelessWidget {
-  final SplashCubit splashCubit;
-
-  const SplashScreen({super.key, required this.splashCubit});
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    splashCubit.init(context); // Call the Cubit's init method
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Spacer(),
-          // App Icon
-          Center(
-            child: Container(
-              height: 64,
-              width: 64,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Flexible(
-                child: SvgPicture.asset(
-                  'assets/images/home_screen/prem_ad.svg',
-                  width: 50,
-                  height: 50,
+    return BlocProvider<SplashCubit>(
+      create: (context) => getIt<SplashCubit>(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: FutureBuilder(
+          future: context.read<SplashCubit>().init(context),
+          builder: (context, snapshot) {
+            return const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(),
+                // App Icon
+                Center(
+                    // ... (your icon widget)
+                    ),
+                SizedBox(height: 16),
+                Text(
+                  'Vignette...',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Vignette...',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          const Spacer(),
-          // Circular Progress Indicator
-          const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-            strokeWidth: 3,
-          ),
-          const SizedBox(height: 32),
-        ],
+                Spacer(),
+                // Circular Progress Indicator
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                  strokeWidth: 3,
+                ),
+                SizedBox(height: 32),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

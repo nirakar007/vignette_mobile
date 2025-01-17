@@ -21,7 +21,7 @@ class HomeCubit extends Cubit {
           MaterialPageRoute(
             builder: (context) => BlocProvider.value(
               value: getIt<LoginBloc>(),
-              child: const LoginScreen(),
+              child: LoginScreen(),
             ),
           ),
         );

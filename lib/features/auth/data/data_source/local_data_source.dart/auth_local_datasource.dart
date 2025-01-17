@@ -16,7 +16,6 @@ class AuthLocalDatasource implements IAuthDataSource {
       username: '',
       password: '',
       boards: [],
-      confirmPassword: '',
     ));
   }
 

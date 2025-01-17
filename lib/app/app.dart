@@ -8,7 +8,7 @@ void main() {
   runApp(const MyApp());
 }
 
-final GetIt getIt = GetIt.instance;
+final getIt = GetIt.instance;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,57 +20,57 @@ class MyApp extends StatelessWidget {
       title: 'Vignette',
       home: BlocProvider<SplashCubit>(
         create: (_) => getIt<SplashCubit>(),
-        child: SplashScreen(splashCubit: getIt<SplashCubit>()),
+        child: const SplashScreen(),
       ),
     );
   }
 }
 
-  // Future<String> determineInitialRoute() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
-  //   final isFirstLoginComplete = prefs.getBool('isFirstLoginComplete') ?? false;
+// Future<String> determineInitialRoute() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+//   final isFirstLoginComplete = prefs.getBool('isFirstLoginComplete') ?? false;
 
-  //   if (!hasSeenOnboarding) {
-  //     return '/onboarding';
-  //   } else if (!isFirstLoginComplete) {
-  //     return '/register';
-  //   } else {
-  //     return '/returning-login'; // Second login page for returning users
-  //   }
-  // }
+//   if (!hasSeenOnboarding) {
+//     return '/onboarding';
+//   } else if (!isFirstLoginComplete) {
+//     return '/register';
+//   } else {
+//     return '/returning-login'; // Second login page for returning users
+//   }
+// }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return FutureBuilder<String>(
-  //     future: determineInitialRoute(),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return const MaterialApp(
-  //             home: Center(child: CircularProgressIndicator()));
-  //       }
+// @override
+// Widget build(BuildContext context) {
+//   return FutureBuilder<String>(
+//     future: determineInitialRoute(),
+//     builder: (context, snapshot) {
+//       if (snapshot.connectionState == ConnectionState.waiting) {
+//         return const MaterialApp(
+//             home: Center(child: CircularProgressIndicator()));
+//       }
 
-  //       final initialRoute = snapshot.data ?? '/dashboard';
+//       final initialRoute = snapshot.data ?? '/dashboard';
 
-  //       return MultiProvider(
-  //         providers: [
-  //           ChangeNotifierProvider(create: (_) => LoginViewModel()),
-  //           ChangeNotifierProvider(create: (_) => RegistrationViewModel()),
-  //         ],
-  //         child: MaterialApp(
-  //           title: 'Vignette',
-  //           theme: getApplicationTheme(),
-  //           debugShowCheckedModeBanner: false,
-  //           initialRoute: initialRoute,
-  //           routes: {
-  //             '/onboarding': (context) => const OnboardingScreen(),
-  //             '/login': (context) => const LoginScreen(),
-  //             '/register': (context) => const RegistrationScreen(),
-  //             '/dashboard': (context) => const Dashboard(),
-  //             '/returning-login': (context) => const ReturningLoginScreen(),
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+//       return MultiProvider(
+//         providers: [
+//           ChangeNotifierProvider(create: (_) => LoginViewModel()),
+//           ChangeNotifierProvider(create: (_) => RegistrationViewModel()),
+//         ],
+//         child: MaterialApp(
+//           title: 'Vignette',
+//           theme: getApplicationTheme(),
+//           debugShowCheckedModeBanner: false,
+//           initialRoute: initialRoute,
+//           routes: {
+//             '/onboarding': (context) => const OnboardingScreen(),
+//             '/login': (context) => const LoginScreen(),
+//             '/register': (context) => const RegistrationScreen(),
+//             '/dashboard': (context) => const Dashboard(),
+//             '/returning-login': (context) => const ReturningLoginScreen(),
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }

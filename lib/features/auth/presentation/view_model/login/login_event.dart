@@ -33,12 +33,12 @@ class NavigateHomeScreenEvent extends LoginEvent {
   List<Object?> get props => [context, destination];
 }
 
-class LoginStudentEvent extends LoginEvent {
+class LoginUserEvent extends LoginEvent {
   final BuildContext context;
   final String username;
   final String password;
 
-  const LoginStudentEvent({
+  const LoginUserEvent({
     required this.context,
     required this.username,
     required this.password,

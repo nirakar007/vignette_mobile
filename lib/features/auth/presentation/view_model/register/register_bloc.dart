@@ -1,21 +1,22 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:vignette__mobile/features/auth/domain/use_case/register_usecase.dart';
+import 'package:vignette__mobile/features/board/presentation/view_model/board/board_bloc.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final RegisterUsecase _registerUsecase;
+  final RegisterUsecase _registerUseCase;
 
   RegisterBloc({
     required RegisterUsecase registerUsecase,
-  })  : _registerUsecase = registerUsecase,
+    required BoardBloc boardBloc,
+  })  : _registerUseCase = registerUsecase,
         super(RegisterState.initial()) {
     on<RegisterUser>(_onRegisterEvent);
 
-    add(const RegisterUser(
-        email: '', username: '', password: '', confirmPassword: ''));
+    add(const RegisterUser(email: '', username: '', password: ''));
   }
 
   void _onRegisterEvent(
@@ -23,16 +24,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
-    final result = await _registerUsecase.call(RegisterUserParams(
+    final result = await _registerUseCase.call(RegisterUserParams(
       email: event.email,
       password: event.password,
       username: event.username,
-      confirmPassword: event.confirmPassword  ,
     ));
 
-    result.fold(
-      (failure) => emit(state.copyWith(isLoading: false, isSuccess: false)),
-      (success) => emit(state.copyWith(isLoading: false, isSuccess: true)),
-    );
+    result.fold((failure) {
+      print('Registration failed: $failure');
+      emit(state.copyWith(isLoading: false, isSuccess: false));
+    }, (success) {
+      print('Registration successful');
+      emit(state.copyWith(isLoading: false, isSuccess: true));
+    });
   }
 }

@@ -7,13 +7,14 @@ import 'package:vignette__mobile/features/auth/domain/entity/auth_entity.dart';
 import 'package:vignette__mobile/features/auth/domain/repository/auth_repository.dart';
 
 class AuthLocalRepository implements IAuthRepository {
-  final AuthLocalDatasource _authLocalDataSource;
-  AuthLocalRepository(this._authLocalDataSource);
+  final AuthLocalDatasource authLocalDataSource;
+
+  AuthLocalRepository({required this.authLocalDataSource});
 
   @override
   Future<Either<Failure, AuthEntity>> getCurrentUser() async {
     try {
-      final currentUser = await _authLocalDataSource.getCurrentUser();
+      final currentUser = await authLocalDataSource.getCurrentUser();
       return Right(currentUser);
     } catch (e) {
       return Left(LocalDatabaseFailure(message: e.toString()));
@@ -24,7 +25,7 @@ class AuthLocalRepository implements IAuthRepository {
   Future<Either<Failure, String>> loginUser(
       String username, String password) async {
     try {
-      final token = await _authLocalDataSource.loginUser(username, password);
+      final token = await authLocalDataSource.loginUser(username, password);
       return Right(token);
     } catch (e) {
       return Left(LocalDatabaseFailure(message: e.toString()));
@@ -34,7 +35,7 @@ class AuthLocalRepository implements IAuthRepository {
   @override
   Future<Either<Failure, void>> registerUser(AuthEntity user) async {
     try {
-      return Right(_authLocalDataSource.registerUser(user));
+      return Right(authLocalDataSource.registerUser(user));
     } catch (e) {
       return Left(LocalDatabaseFailure(message: e.toString()));
     }

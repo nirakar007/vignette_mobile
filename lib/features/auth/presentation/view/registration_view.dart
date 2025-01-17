@@ -1,197 +1,147 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:vignette__mobile/app/widget/showMySnackbar.dart';
 import 'package:vignette__mobile/features/auth/presentation/view_model/register/register_bloc.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
 
   @override
-  RegistrationScreenState createState() => RegistrationScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class RegistrationScreenState extends State<RegistrationScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   // Controllers
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  // Country list
-  final List<String> countries = [
-    'Nepal',
-    'India',
-    'United States',
-    'United Kingdom',
-    'Australia',
-    'Canada',
-    'Germany',
-    'France',
-    'China',
-    'Japan',
-  ];
+  final _key = GlobalKey<FormState>();
 
   // Field focus flags
-  bool isFullNameEmpty = false;
   bool isEmailEmpty = false;
-  bool isCountryEmpty = false;
+  bool isUsernameEmpty = false;
   bool isPasswordEmpty = false;
-  bool isConfirmPasswordEmpty = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nirakar"),
+        title:
+            BlocBuilder<RegisterBloc, RegisterState>(builder: (context, state) {
+          return const Text("Register User");
+        }),
+        centerTitle: true,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: BlocConsumer<RegisterBloc, RegisterState>(
-          listener: (context, state) {
-            if (state.isSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Registration Successful',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Form(
+              key: _key,
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/logo/logo.svg',
+                    width: 50,
+                    height: 50,
                   ),
-                  backgroundColor: Colors.green,
-                ),
-              );
-              Navigator.pushReplacementNamed(context, "/login");
-            } else if (!state.isLoading && !state.isSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Registration Failed',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  const SizedBox(height: 16),
+
+                  const Text(
+                    "Welcome To Vignette",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                   ),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/logo/logo.svg',
-                      width: 50,
-                      height: 50,
-                    ),
-                    const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                    const Text(
-                      "Vignette",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 16),
+                  const Text(
+                    "Sign Up",
+                    style: TextStyle(fontSize: 18),
+                  ),
 
-                    const Text("Sign Up"),
-                    const SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
-                    // Input fields
-                    _buildTextField(
-                        fullNameController, 'Enter full name', isFullNameEmpty),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                        emailController, 'Enter email', isEmailEmpty),
-                    const SizedBox(height: 16),
-                    _buildDropdownField(
-                        countryController, 'Select country', isCountryEmpty),
-                    const SizedBox(height: 16),
-                    _buildTextField(
-                        passwordController, 'Enter password', isPasswordEmpty,
-                        obscureText: true),
-                    const SizedBox(height: 16),
-                    _buildTextField(confirmPasswordController,
-                        'Confirm password', isConfirmPasswordEmpty,
-                        obscureText: true),
-                    const SizedBox(height: 16),
+                  // Input fields
+                  _buildTextField(
+                      _emailController, 'Enter email', isEmailEmpty),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                      _usernameController, 'Enter username', isUsernameEmpty),
+                  const SizedBox(height: 16),
+                  _buildTextField(
+                      _passwordController, 'Enter password', isPasswordEmpty,
+                      obscureText: true),
+                  const SizedBox(height: 16),
 
-                    // Register button
-                    ElevatedButton(
-                      onPressed: state.isLoading
-                          ? null
-                          : () {
-                              setState(() {
-                                isFullNameEmpty =
-                                    fullNameController.text.trim().isEmpty;
-                                isEmailEmpty =
-                                    emailController.text.trim().isEmpty;
-                                isCountryEmpty =
-                                    countryController.text.trim().isEmpty;
-                                isPasswordEmpty =
-                                    passwordController.text.trim().isEmpty;
-                                isConfirmPasswordEmpty =
-                                    confirmPasswordController.text
-                                        .trim()
-                                        .isEmpty;
-                              });
-
-                              if (isFullNameEmpty ||
-                                  isEmailEmpty ||
-                                  isCountryEmpty ||
-                                  isPasswordEmpty ||
-                                  isConfirmPasswordEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'All fields must be filled.',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                                return;
-                              }
-
-                              context.read<RegisterBloc>().add(
-                                    RegisterUser(
-                                      email: emailController.text.trim(),
-                                      username: fullNameController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                      confirmPassword:
-                                          confirmPasswordController.text.trim(),
-                                    ),
-                                  );
-                            },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                  // Checkbox for email updates
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: false,
+                        onChanged: (value) {
+                          // Handle checkbox state
+                        },
                       ),
-                      child: state.isLoading
-                          ? const CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            )
-                          : const Text('Register'),
+                      const Text('Send email of latest updates'),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Biometric login setup
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Handle biometric setup
+                      showSnackbar(
+                          context: context,
+                          message: "Biometric option pressed!",
+                          color: Colors.grey);
+                    },
+                    icon: const Icon(Icons.fingerprint, size: 24),
+                    label: const Text('Set up biometric login'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Register button
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_key.currentState!.validate()) {
+                        context.read<RegisterBloc>().add(
+                              RegisterUser(
+                                  email: _emailController.text,
+                                  username: _usernameController.text,
+                                  password: _passwordController.text),
+                            );
+
+                        showSnackbar(
+                            context: context,
+                            message: "Registered Successfully!",
+                            color: Colors.green);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black87,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(200, 60),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.all(16),
+                    ),
+                    child: const Text("Register"),
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
@@ -216,34 +166,6 @@ class RegistrationScreenState extends State<RegistrationScreen> {
         ),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      ),
-    );
-  }
-
-  Widget _buildDropdownField(
-      TextEditingController controller, String hintText, bool isEmpty) {
-    return DropdownButtonFormField<String>(
-      value: controller.text.isNotEmpty ? controller.text : null,
-      onChanged: (value) {
-        setState(() {
-          controller.text = value ?? '';
-        });
-      },
-      items: countries.map((country) {
-        return DropdownMenuItem(
-          value: country,
-          child: Text(country),
-        );
-      }).toList(),
-      decoration: InputDecoration(
-        hintText: hintText,
-        filled: true,
-        fillColor: isEmpty ? Colors.red[100] : Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.all(16),
       ),
     );
   }

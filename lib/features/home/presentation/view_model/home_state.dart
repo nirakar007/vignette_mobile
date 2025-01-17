@@ -2,9 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vignette__mobile/app/di/di.dart';
-import 'package:vignette__mobile/features/auth/presentation/view/registration_view.dart';
-import 'package:vignette__mobile/features/auth/presentation/view_model/register/register_bloc.dart';
 import 'package:vignette__mobile/features/board/presentation/view_model/board/board_bloc.dart';
+import 'package:vignette__mobile/features/home/presentation/view/bottom_view/dashboard_view.dart';
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -21,17 +20,26 @@ class HomeState extends Equatable {
       views: [
         BlocProvider(
           create: (context) => getIt<BoardBloc>(),
-          child: const RegistrationScreen(),
+          child: const Dashboard(),
         ),
-        BlocProvider(
-          create: (context) => getIt<RegisterBloc>(),
-          child: const RegistrationScreen(),
-        ),
-
+        // BlocProvider(
+        //   create: (context) => getIt<BoardBloc>(),
+        //   child: const RegistrationScreen(),
+        // ),
       ],
     );
   }
 
+  HomeState copyWith({
+    int? selectedIndex,
+    List<Widget>? views,
+  }) {
+    return HomeState(
+      selectedIndex: selectedIndex ?? this.selectedIndex,
+      views: views ?? this.views,
+    );
+  }
+
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [selectedIndex, views];
 }

@@ -9,7 +9,7 @@ void main() async {
 
   await HiveService.init();
 
-  await initDependencies();
+  await initDependencies(); 
 
   runApp(
     const MyApp(),

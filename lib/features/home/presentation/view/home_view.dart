@@ -22,6 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final isTablet = screenWidth > 600; // Check if the device is a tablet
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Nirakar"),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -74,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: const Text(
                             'Learn More',
                             style: TextStyle(
-                              color: Colors.white,
                               fontSize: 14,
                             ),
                           ),
@@ -162,7 +164,8 @@ class _HomeScreenState extends State<HomeScreen> {
             // Grid of Cards
             GridView.count(
               shrinkWrap: true,
-              crossAxisCount: isTablet ? 3 : 2, // Adjust columns for tablets
+              crossAxisCount: isTablet ? 3 : 2,
+              // Adjust columns for tablets
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
               physics: const NeverScrollableScrollPhysics(),

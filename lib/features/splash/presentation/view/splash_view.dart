@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:vignette__mobile/app/di/di.dart';
 import 'package:vignette__mobile/features/splash/presentation/view_model/splash_cubit.dart';
 // ... other imports
@@ -16,16 +17,23 @@ class SplashScreen extends StatelessWidget {
         body: FutureBuilder(
           future: context.read<SplashCubit>().init(context),
           builder: (context, snapshot) {
-            return const Column(
+            return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Spacer(),
+                const Spacer(),
                 // App Icon
-                Center(
+                SizedBox(
+                  child: SvgPicture.asset(
+                    'assets/logo/logo.svg',
+                    width: 50,
+                    height: 50,
+                  ),
+                ),
+                const Center(
                     // ... (your icon widget)
                     ),
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'Vignette...',
                   style: TextStyle(
                     fontSize: 20,
@@ -33,13 +41,13 @@ class SplashScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 // Circular Progress Indicator
-                CircularProgressIndicator(
+                const CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-                  strokeWidth: 3,
+                  strokeWidth: 4,
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
               ],
             );
           },

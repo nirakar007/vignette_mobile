@@ -9,7 +9,7 @@ import 'package:vignette__mobile/features/auth/domain/repository/auth_repository
 class AuthLocalRepository implements IAuthRepository {
   final AuthLocalDatasource authLocalDataSource;
 
-  AuthLocalRepository({required this.authLocalDataSource});
+  AuthLocalRepository(this.authLocalDataSource);
 
   @override
   Future<Either<Failure, AuthEntity>> getCurrentUser() async {

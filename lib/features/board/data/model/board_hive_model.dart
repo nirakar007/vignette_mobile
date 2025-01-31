@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:uuid/uuid.dart';
 import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
 import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart';
 

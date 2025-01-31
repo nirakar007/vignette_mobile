@@ -1,25 +1,33 @@
 part of 'register_bloc.dart';
 
-class RegisterState {
+class RegisterState extends Equatable {
   final bool isLoading;
   final bool isSuccess;
+  final String? imageName;
 
-  RegisterState({
-    this.isLoading = false,
-    this.isSuccess = false,
+  const RegisterState({
+    required this.isLoading,
+    required this.isSuccess,
+    this.imageName,
   });
 
-  RegisterState.initial()
+  const RegisterState.initial()
       : isLoading = false,
-        isSuccess = false;
+        isSuccess = false,
+        imageName = null;
 
   RegisterState copyWith({
     bool? isLoading,
     bool? isSuccess,
+    String? imageName,
   }) {
     return RegisterState(
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
+      imageName: imageName ?? this.imageName,
     );
   }
+
+  @override
+  List<Object?> get props => [isLoading, isSuccess, imageName];
 }

@@ -17,27 +17,32 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     on<GetBoardEvent>(_onGetBoard);
   }
 
-  Future<void> _onCreateBoard(CreateBoardEvent event, Emitter<BoardState> emit) async {
+  Future<void> _onCreateBoard(
+      CreateBoardEvent event, Emitter<BoardState> emit) async {
     emit(BoardLoadingState());
     try {
-      final boards = await dataSource.createBoard(event.board);
+      final board = await dataSource.createBoard(event.board);
+      final boards = await dataSource.getAllBoards(); // Fetch updated list
       emit(BoardSuccessState(boards));
     } catch (e) {
       emit(BoardErrorState(e.toString()));
     }
   }
 
-  Future<void> _onDeleteBoard(DeleteBoardEvent event, Emitter<BoardState> emit) async {
+  Future<void> _onDeleteBoard(
+      DeleteBoardEvent event, Emitter<BoardState> emit) async {
     emit(BoardLoadingState());
     try {
-      await dataSource.deleteBoard();
-      emit(BoardSuccessState([])); // Assume deletion resets the board list
+      await dataSource.deleteBoard(event.boardId); // Pass board ID if required
+      final boards = await dataSource.getAllBoards(); // Fetch updated list
+      emit(BoardSuccessState(boards));
     } catch (e) {
       emit(BoardErrorState(e.toString()));
     }
   }
 
-  Future<void> _onUpdateBoard(UpdateBoardEvent event, Emitter<BoardState> emit) async {
+  Future<void> _onUpdateBoard(
+      UpdateBoardEvent event, Emitter<BoardState> emit) async {
     emit(BoardLoadingState());
     try {
       final board = await dataSource.updateBoard(event.board, event.boardId);
@@ -47,7 +52,8 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     }
   }
 
-  Future<void> _onGetAllBoards(GetAllBoardsEvent event, Emitter<BoardState> emit) async {
+  Future<void> _onGetAllBoards(
+      GetAllBoardsEvent event, Emitter<BoardState> emit) async {
     emit(BoardLoadingState());
     try {
       final boards = await dataSource.getAllBoards();
@@ -57,11 +63,13 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     }
   }
 
-  Future<void> _onGetBoard(GetBoardEvent event, Emitter<BoardState> emit) async {
+  Future<void> _onGetBoard(
+      GetBoardEvent event, Emitter<BoardState> emit) async {
     emit(BoardLoadingState());
     try {
       final board = await dataSource.getBoard(event.boardId);
-      emit(BoardLoadedState(board.first)); // Assuming the method returns a list with one element
+      emit(BoardLoadedState(
+          board as BoardEntity)); // Assuming it returns a single entity
     } catch (e) {
       emit(BoardErrorState(e.toString()));
     }

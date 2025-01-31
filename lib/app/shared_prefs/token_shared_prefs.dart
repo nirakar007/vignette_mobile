@@ -1,9 +1,27 @@
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:dartz/dartz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vignette__mobile/core/error/failure.dart';
 
-// final storage = const FlutterSecureStorage();
+class TokenSharedPrefs {
+  final SharedPreferences _sharedPreferences;
 
-// // Store the token
-// await storage.write(key: 'auth_token', value: token);
+  TokenSharedPrefs(this._sharedPreferences);
 
-// // Retrieve the token when needed
-// final storedToken = await storage.read(key: 'auth_token');
+  Future<Either<Failure, void>> saveToken(String token) async {
+    try {
+      await _sharedPreferences.setString('token', token);
+      return const Right(null);
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String>> getToken() async {
+    try {
+      final token = _sharedPreferences.getString('token');
+      return Right(token ?? '');
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
+}

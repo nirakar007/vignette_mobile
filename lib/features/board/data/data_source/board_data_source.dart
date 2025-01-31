@@ -3,7 +3,7 @@ import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart'
 abstract interface class IBoardDataSource {
   Future<List<BoardEntity>> getAllBoards();
   Future<List<BoardEntity>> getBoard(String boardId);
-  Future<List<BoardEntity>> createBoard(BoardEntity board);
-  Future<void> deleteBoard();
+  Future<void> createBoard(BoardEntity board);
+  Future<void> deleteBoard(String boardId);
   Future<BoardEntity> updateBoard(BoardEntity board, String boardId);
 }

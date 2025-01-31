@@ -9,8 +9,8 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController(text: '');
+  final _passwordController = TextEditingController(text: '');
 
   final _gap = const SizedBox(height: 16.0);
 
@@ -39,137 +39,97 @@ class LoginScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/logo/logo.svg',
-                      width: 50,
-                      height: 50,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Welcome to',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/logo/logo.svg',
+                          width: 50, height: 50),
+                      const SizedBox(height: 16),
+                      const Text('Welcome back to',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w400)),
+                      const Text('Vignette',
+                          style: TextStyle(
+                              fontSize: 32, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 32),
+                      TextFormField(
+                        key: const ValueKey('username'),
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                            labelText: "Username",
+                            border: OutlineInputBorder()),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Please enter username' : null,
                       ),
-                    ),
-                    const Text(
-                      'Vignette',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      _gap,
+                      TextFormField(
+                        key: const ValueKey('password'),
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                            labelText: "Password",
+                            border: OutlineInputBorder()),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Please enter password' : null,
                       ),
-                    ),
-                    const SizedBox(height: 32),
-                    TextFormField(
-                      key: const ValueKey('username'),
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        labelText: "Username",
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter username';
-                        }
-                        return null;
-                      },
-                    ),
-                    _gap,
-                    TextFormField(
-                      key: const ValueKey('password'),
-                      controller: _passwordController,
-                      decoration: const InputDecoration(
-                        labelText: "Password",
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter password';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: false,
-                          onChanged: (value) {
-                            // Handle checkbox state
-                          },
-                        ),
-                        const Text('Keep me logged in'),
-                      ],
-                    ),
-                    _gap,
-                    Column(children: [
-                      IconButton(
+                      const SizedBox(height: 16),
+                      ElevatedButton(
                         onPressed: () {
-                          // Handle biometric login
-                        },
-                        icon: const Icon(Icons.fingerprint),
-                        iconSize: 48,
-                        color: Colors.black,
-                      ),
-                      const Text(
-                        'Use biometrics to login',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ]),
-                    _gap,
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          context.read<LoginBloc>().add(LoginUserEvent(
-                              context: context,
-                              username: _usernameController.text,
-                              password: _passwordController.text));
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black87,
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size(200, 60),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        padding: const EdgeInsets.all(16),
-                      ),
-                      child: state.isLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text("Login"),
-                    ),
-                    Column(
-                      children: [
-                        _gap,
-                        const Text("Dont have an Account?"),
-                        TextButton(
-                          onPressed: () {
+                          if (_formKey.currentState!.validate()) {
                             context.read<LoginBloc>().add(
-                                  NavigateRegisterScreenEvent(
+                                  LoginUserEvent(
                                     context: context,
-                                    destination: const RegistrationScreen(),
+                                    username: _usernameController.text,
+                                    password: _passwordController.text,
                                   ),
                                 );
-                          },
-                          child: const Text(
-                            "Register here",
-                            style: TextStyle(fontSize: 18),
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black87,
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size(200, 60),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.all(16),
+                        ),
+                        child: state.isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : const Text("Login"),
+                      ),
+                      _gap,
+                      ElevatedButton(
+                        key: const ValueKey('registerButton'),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black87,
+                          minimumSize: const Size(60, 60),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0)),
+                          padding: const EdgeInsets.all(6),
+                          shadowColor: Colors.white,
+                        ),
+                        onPressed: () {
+                          context.read<LoginBloc>().add(
+                                NavigateRegisterScreenEvent(
+                                  destination: const RegistrationScreen(),
+                                  context: context,
+                                ),
+                              );
+                        },
+                        child: const SizedBox(
+                          height: 50,
+                          child: Center(
+                            child: Text("Register",
+                                style: TextStyle(fontSize: 18)),
                           ),
                         ),
-                      ],
-                    )
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

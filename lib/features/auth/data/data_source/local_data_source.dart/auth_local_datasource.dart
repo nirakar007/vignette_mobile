@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:vignette__mobile/core/network/hive_service.dart';
 import 'package:vignette__mobile/features/auth/data/data_source/auth_data_source.dart';
 import 'package:vignette__mobile/features/auth/data/model/auth_hive_model.dart';
@@ -11,12 +13,12 @@ class AuthLocalDatasource implements IAuthDataSource {
   @override
   Future<AuthEntity> getCurrentUser() {
     return Future.value(const AuthEntity(
-      userId: '1',
-      email: '',
-      username: '',
-      password: '',
-      boards: [],
-    ));
+        userId: '1',
+        email: '',
+        username: '',
+        password: '',
+        boards: [],
+        profilePicture: null));
   }
 
   @override
@@ -41,7 +43,7 @@ class AuthLocalDatasource implements IAuthDataSource {
   }
 
   @override
-  Future<String> uploadProfilePicture(String filePath) {
+  Future<String> uploadProfilePicture(File filePath) {
     throw UnimplementedError();
   }
 }

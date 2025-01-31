@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:vignette__mobile/app/constants/hive_table_constant.dart';
 import 'package:vignette__mobile/features/auth/domain/entity/auth_entity.dart';
+import 'package:vignette__mobile/features/board/data/model/board_hive_model.dart';
 
 part 'auth_hive_model.g.dart';
 
@@ -43,6 +44,7 @@ class AuthHiveModel extends Equatable {
       email: entity.email,
       username: entity.username,
       password: entity.password,
+      profilePicture: entity.profilePicture,
     );
   }
 
@@ -53,8 +55,8 @@ class AuthHiveModel extends Equatable {
       email: email,
       username: username,
       password: password,
-      // boards: BoardHiveModel.toEntityList(boards),
-      // profilePicture: profilePicture,
+      boards: BoardHiveModel.toEntityList(boards),
+      profilePicture: profilePicture,
     );
   }
 

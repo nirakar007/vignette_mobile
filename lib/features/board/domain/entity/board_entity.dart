@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class BoardEntity extends Equatable {
   final String? boardId;
-  final String? boardName;
+  final String boardName;
   final String? description;
   final List<BoardItem> items;
   final String? userId;
@@ -11,7 +11,7 @@ class BoardEntity extends Equatable {
 
   const BoardEntity({
     this.boardId,
-    this.boardName,
+    required this.boardName,
     this.description,
     this.items = const [],
     this.userId,

@@ -45,7 +45,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       (l) => {
         emit(state.copyWith(isLoading: false, isSuccess: false)),
         showSnackbar(
-            context: event.context, message: "Unsuccessful", color: Colors.red)
+            context: event.context,
+            message: "Registration Successful!",
+            color: Colors.green)
       },
       (r) {
         emit(state.copyWith(isLoading: false, isSuccess: true));

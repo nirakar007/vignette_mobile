@@ -701,6 +701,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  mockito:
+    dependency: "direct main"
+    description:
+      name: mockito
+      sha256: f99d8d072e249f719a5531735d146d8cf04c580d93920b04de75bef6dfb2daf6
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.5"
   multi_select_flutter:
     dependency: "direct main"
     description:
@@ -1066,6 +1074,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.3"
+  test_cov_console:
+    dependency: "direct main"
+    description:
+      name: test_cov_console
+      sha256: "73519e8be3689d73f5cffb652c12c310acacf48379396d834da937094836e65e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   timing:
     dependency: transitive
     description:

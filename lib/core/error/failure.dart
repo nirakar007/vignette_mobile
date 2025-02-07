@@ -9,6 +9,19 @@ abstract class Failure extends Equatable {
   List<Object> get props => [message];
 }
 
+class AuthFailure extends Failure {
+  @override
+  final String message;
+
+  const AuthFailure({required this.message}) : super(message: 'Auth Failed');
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'AuthFailure: $message';
+}
+
 class LocalDatabaseFailure extends Failure {
   const LocalDatabaseFailure({required super.message});
 }

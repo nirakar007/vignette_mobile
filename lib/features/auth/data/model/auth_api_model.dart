@@ -46,6 +46,7 @@ class AuthApiModel extends Equatable {
   //From Entity
   factory AuthApiModel.fromEntity(AuthEntity entity) {
     return AuthApiModel(
+        id: entity.userId,
         profilePicture: entity.profilePicture,
         email: entity.email,
         boards:

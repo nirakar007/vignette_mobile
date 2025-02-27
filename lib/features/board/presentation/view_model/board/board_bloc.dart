@@ -9,7 +9,9 @@ part 'board_state.dart';
 class BoardBloc extends Bloc<BoardEvent, BoardState> {
   final IBoardDataSource dataSource;
 
-  BoardBloc(this.dataSource) : super(BoardInitialState()) {
+  BoardBloc(this.dataSource,
+      {required Object getBoardsUseCase, required Object createBoard})
+      : super(BoardInitialState()) {
     on<CreateBoardEvent>(_onCreateBoard);
     on<DeleteBoardEvent>(_onDeleteBoard);
     on<UpdateBoardEvent>(_onUpdateBoard);

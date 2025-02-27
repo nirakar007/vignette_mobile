@@ -1,0 +1,2 @@
+C:/Users/Lenovo/Desktop/nirakar mobile/vignette_mobile/android/app/.cxx/Debug/451y5g1a/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Lenovo/Desktop/nirakar mobile/vignette_mobile/android/app/.cxx/Debug/451y5g1a/armeabi-v7a/CMakeFiles/rebuild_cache.dir

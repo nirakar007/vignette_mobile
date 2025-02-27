@@ -12,9 +12,11 @@ AuthApiModel _$AuthApiModelFromJson(Map<String, dynamic> json) => AuthApiModel(
       boards: (json['boards'] as List<dynamic>)
           .map((e) => BoardApiModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      email: json['email'] as String,
       username: json['username'] as String,
+      email: json['email'] as String,
       password: json['password'] as String?,
+      role: json['role'] as String?,
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$AuthApiModelToJson(AuthApiModel instance) =>
@@ -25,4 +27,6 @@ Map<String, dynamic> _$AuthApiModelToJson(AuthApiModel instance) =>
       'username': instance.username,
       'email': instance.email,
       'password': instance.password,
+      'role': instance.role,
+      'createdAt': instance.createdAt.toIso8601String(),
     };

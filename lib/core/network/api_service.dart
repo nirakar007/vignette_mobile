@@ -5,6 +5,8 @@ import 'package:vignette__mobile/core/network/dio_error_interceptor.dart';
 
 class ApiService {
   final Dio _dio;
+
+  static var baseUrl;
   Dio get dio => _dio;
 
   ApiService(this._dio) {

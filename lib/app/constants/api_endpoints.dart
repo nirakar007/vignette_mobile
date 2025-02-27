@@ -12,10 +12,10 @@ class ApiEndpoints {
   static const String getAllBoards = "board/getAllBoards";
 
   // Auth Routes ---------
-  static const String login = "auth/login";
-  static const String register = "auth/register";
-  static const String updateStudent = "auth/updateUser/";
-  static const String deleteStudent = "auth/deleteUser/";
+  static const String login = "/api/v1/users/login";
+  static const String register = "/api/v1/users/register";
+  static const String updateStudent = "/api/v1/users/updateUser/";
+  static const String deleteStudent = "/api/v1/users/deleteUser/";
+  static const String uploadImage = "/api/v1/users/uploadImage";
   static const String imageUrl = "http://10.0.2.2:3001/uploads/";
-  static const String uploadImage = "auth/uploadImage";
 }

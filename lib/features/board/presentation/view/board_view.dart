@@ -7,8 +7,8 @@
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       // create: (context) => BoardBloc(/* pass your data source */),
+//     return BlocProvider<BoardBloc>(
+//       create: (BuildContext context) => BoardBloc(yourDataSource),
 //       child: Scaffold(
 //         appBar: AppBar(
 //           leading:

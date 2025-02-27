@@ -17,50 +17,66 @@ class AuthHiveModel extends Equatable {
   @HiveField(3)
   final String password;
   @HiveField(4)
-  final List<String>? boards;
+  final List<BoardHiveModel>? boards;
   @HiveField(5)
   final String? profilePicture;
 
-  const AuthHiveModel(
-      {this.userId,
-      required this.email,
-      required this.username,
-      required this.password,
-      this.boards,
-      this.profilePicture});
+  const AuthHiveModel({
+    this.userId,
+    required this.email,
+    required this.username,
+    required this.password,
+    this.boards,
+    this.profilePicture,
+  });
 
-  // initial constructor
   const AuthHiveModel.initial()
-      : userId = '',
+      : userId = null,
         email = '',
         username = '',
         password = '',
-        boards = const [],
+        boards = null,
         profilePicture = null;
 
-  // from entity
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
+      userId: entity.userId,
       email: entity.email,
       username: entity.username,
       password: entity.password,
+      boards: entity.boards
+          ?.map((board) =>
+              BoardHiveModel.fromEntity(board as Map<String, dynamic>))
+          .toList(),
       profilePicture: entity.profilePicture,
     );
   }
 
-  // to entity
   AuthEntity toEntity() {
     return AuthEntity(
       userId: userId,
       email: email,
       username: username,
       password: password,
-      boards: BoardHiveModel.toEntityList(boards),
+      boards: boards?.map((board) => board.toEntity()).toList() ?? [],
       profilePicture: profilePicture,
+      role: '', // default role value
+      plan: '', // default plan value
+      isBanned: false, // default banned status
+      lastLogin: DateTime.now(), // default lastLogin timestamp
+      loginCount: 0, // default login count
+      planExpiresAt: DateTime.now(), // default planExpiresAt timestamp
+      createdAt: DateTime.now(), // default createdAt timestamp
     );
   }
 
   @override
-  List<Object?> get props =>
-      [userId, email, username, password, boards, profilePicture];
+  List<Object?> get props => [
+        userId,
+        email,
+        username,
+        password,
+        boards,
+        profilePicture,
+      ];
 }

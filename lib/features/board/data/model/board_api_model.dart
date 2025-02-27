@@ -45,6 +45,9 @@ class BoardApiModel extends Equatable {
   BoardEntity toEntity() => BoardEntity(
         boardId: boardId,
         boardName: boardName,
+        userId: '',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
 
   //to Entity List

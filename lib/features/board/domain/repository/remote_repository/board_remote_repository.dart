@@ -1,36 +1,44 @@
-import 'package:dartz/dartz.dart';
-import 'package:vignette__mobile/core/error/failure.dart';
+import 'package:vignette__mobile/core/common/internet_checker/network_exception.dart';
+import 'package:vignette__mobile/core/common/internet_checker/network_info.dart';
 import 'package:vignette__mobile/features/board/data/data_source/remote_data_source/board_remote_data_source.dart';
 import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart';
 import 'package:vignette__mobile/features/board/domain/repository/board_repository.dart';
 
+class BoardRemoteRepositoryImpl implements BoardRemoteRepository {
+  final BoardRemoteDataSource remoteDataSource;
+  final NetworkInfo networkInfo;
 
-class BoardRemoteRepository implements IBoardRepository {
-  final BoardRemoteDataSource _boardRemoteDataSource;
-
-  BoardRemoteRepository( this._boardRemoteDataSource);
-
-
+  BoardRemoteRepositoryImpl({
+    required this.remoteDataSource,
+    required this.networkInfo,
+  });
 
   @override
-  Future<Either<Failure, void>> createBoard(BoardEntity board) async {
-    try {
-      await _boardRemoteDataSource.createBoard(board);
-      return const Right(null);
-    } catch (e) {
-      return Left(ApiFailure(message: e.toString()));
-    }
+  Future<List<BoardEntity>> getBoards(String userId) async {
+    if (!await networkInfo.isConnected) throw const NetworkException();
+    return await remoteDataSource.getBoards(userId);
   }
 
   @override
-  Future<Either<Failure, void>> deleteBoard(String id) {
-    // TODO: implement deleteCourse
-    throw UnimplementedError();
+  Future<BoardEntity> getBoardById(String boardId) async {
+    if (!await networkInfo.isConnected) throw const NetworkException();
+    return await remoteDataSource.getBoardById(boardId);
   }
 
   @override
-  Future<Either<Failure, List<BoardEntity>>> getAllBoards() {
-    // TODO: implement getCourses
-    throw UnimplementedError();
+  Future<void> uploadImage(String localPath) async {
+    if (!await networkInfo.isConnected) throw const NetworkException();
+    await remoteDataSource.uploadImage(localPath);
+  }
+
+  @override
+  Future<void> updateFavoriteStatus(String boardId, bool isFavorite) async {
+    if (!await networkInfo.isConnected) throw const NetworkException();
+    await remoteDataSource.updateFavoriteStatus(boardId, isFavorite);
+  }
+
+  @override
+  Future<void> syncData() async {
+    // Remote-specific sync logic
   }
 }

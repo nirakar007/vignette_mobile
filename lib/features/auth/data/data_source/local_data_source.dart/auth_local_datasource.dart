@@ -18,7 +18,14 @@ class AuthLocalDatasource implements IAuthDataSource {
         username: '',
         password: '',
         boards: [],
-        profilePicture: null));
+        profilePicture: null,
+        role: '',
+        plan: '',
+        isBanned: null,
+        lastLogin: null,
+        loginCount: null,
+        planExpiresAt: null,
+        createdAt: null));
   }
 
   @override

@@ -21,6 +21,8 @@ class BoardHiveModel extends Equatable {
   final DateTime createdAt;
   @HiveField(6)
   final DateTime updatedAt;
+  @HiveField(7)
+  final bool isSynced;
 
   const BoardHiveModel({
     this.boardId,
@@ -30,6 +32,8 @@ class BoardHiveModel extends Equatable {
     this.userId,
     required this.createdAt,
     required this.updatedAt,
+    required this.isSynced,
+    required bool isFavorite,
   });
 
   // initial constructor
@@ -40,7 +44,8 @@ class BoardHiveModel extends Equatable {
         items = const [],
         userId = '',
         createdAt = DateTime.now(),
-        updatedAt = DateTime.now();
+        updatedAt = DateTime.now(),
+        isSynced = false;
 
   // from entity
   factory BoardHiveModel.fromEntity(Map<String, dynamic> entity) {
@@ -52,6 +57,8 @@ class BoardHiveModel extends Equatable {
       userId: entity['userId'],
       createdAt: entity['createdAt'],
       updatedAt: entity['updatedAt'],
+      isSynced: entity['isSynced'],
+      isFavorite: false,
     );
   }
 
@@ -62,7 +69,7 @@ class BoardHiveModel extends Equatable {
       boardName: boardName,
       description: description,
       items: BoardItemHiveModel.toEntityList(items),
-      userId: userId,
+      userId: userId ?? '',
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -71,6 +78,8 @@ class BoardHiveModel extends Equatable {
   @override
   List<Object?> get props =>
       [boardId, boardName, description, items, userId, createdAt, updatedAt];
+
+  get isFavorite => null;
 
   static toEntityList(List<String>? boards) {}
 }

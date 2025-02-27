@@ -5,38 +5,85 @@ class BoardEntity extends Equatable {
   final String boardName;
   final String? description;
   final List<BoardItem> items;
-  final String? userId;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String userId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool isFavorite;
+  final bool isSynced;
 
   const BoardEntity({
     this.boardId,
     required this.boardName,
     this.description,
     this.items = const [],
-    this.userId,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
+    this.isFavorite = false,
+    this.isSynced = false,
+  });
+
+  BoardEntity copyWith({
+    String? boardId,
+    String? boardName,
+    String? description,
+    List<BoardItem>? items,
+    String? userId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    bool? isFavorite,
+    bool? isSynced,
+  }) {
+    return BoardEntity(
+      boardId: boardId ?? this.boardId,
+      boardName: boardName ?? this.boardName,
+      description: description ?? this.description,
+      items: items ?? this.items,
+      userId: userId ?? this.userId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      isFavorite: isFavorite ?? this.isFavorite,
+      isSynced: isSynced ?? this.isSynced,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        boardId,
+        boardName,
+        description,
+        items,
+        userId,
+        createdAt,
+        updatedAt,
+        isFavorite,
+        isSynced,
+      ];
+
+  static Future<List<BoardEntity>> fromJson(json) {}
+}
+
+class BoardItem extends Equatable {
+  final String type;
+  final String content;
+  final Position position;
+  final Size size;
+  final String image;
+  final DateTime? createdAt;
+
+  const BoardItem({
+    required this.type,
+    required this.content,
+    this.position = const Position(),
+    this.size = const Size(),
+    required this.image,
     this.createdAt,
-    this.updatedAt,
   });
 
   @override
-  List<Object?> get props =>
-      [boardId, boardName, description, items, userId, createdAt, updatedAt];
+  List<Object?> get props => [type, content, position, size, image, createdAt];
 }
 
-// subclass to represent individual items in the board
-class BoardItem extends Equatable {
-  final String? type;
-  final String? content;
-  final String? position;
-
-  const BoardItem({this.type, this.content, this.position});
-
-  @override
-  List<Object?> get props => [type, content, position];
-}
-
-// subclass to represent position coordinates
 class Position extends Equatable {
   final double x;
   final double y;
@@ -45,4 +92,14 @@ class Position extends Equatable {
 
   @override
   List<Object?> get props => [x, y];
+}
+
+class Size extends Equatable {
+  final double width;
+  final double height;
+
+  const Size({this.width = 100.0, this.height = 100.0});
+
+  @override
+  List<Object?> get props => [width, height];
 }

@@ -15,7 +15,7 @@ class BoardItemHiveModel extends Equatable {
   const BoardItemHiveModel({
     required this.content,
     required this.positionX,
-    required this.positionY,
+    required this.positionY, required isCompleted, required itemId, required itemName,
   });
 
   @override

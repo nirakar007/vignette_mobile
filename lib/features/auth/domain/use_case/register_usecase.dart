@@ -42,6 +42,14 @@ class RegisterUsecase implements UseCaseWithParams<void, RegisterUserParams> {
       username: params.username,
       password: params.password,
       profilePicture: params.profilePicture,
+      boards: const [],
+      role: '',
+      plan: '',
+      isBanned: null,
+      lastLogin: null,
+      loginCount: null,
+      planExpiresAt: null,
+      createdAt: null,
     );
     return repository.registerUser(authEntity);
   }

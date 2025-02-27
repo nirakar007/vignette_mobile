@@ -1,32 +1,80 @@
-import 'package:vignette__mobile/core/network/hive_service.dart';
-import 'package:vignette__mobile/features/board/data/data_source/board_data_source.dart';
+import 'package:hive/hive.dart';
+import 'package:vignette__mobile/features/board/data/model/board_hive_model.dart';
+import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
 import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart';
 
-class BoardLocalDataSource implements IBoardDataSource {
-  BoardLocalDataSource(HiveService hiveService);
+abstract class BoardLocalDataSource {
+  BoardLocalDataSource(Object object);
+
+  Future<List<BoardEntity>> getBoards(String userId);
+  Future<void> cacheBoards(List<BoardEntity> boards);
+  Future<List<BoardEntity>> getUnsyncedBoards();
+}
+
+class BoardLocalDataSourceImpl implements BoardLocalDataSource {
+  final HiveInterface hive;
+  static const String _boxName = 'boards';
+
+  BoardLocalDataSourceImpl(this.hive);
 
   @override
-  Future<List<BoardEntity>> createBoard(BoardEntity board) {
-    throw UnimplementedError();
+  Future<List<BoardEntity>> getBoards(String userId) async {
+    final box = await hive.openBox<BoardHiveModel>(_boxName);
+    final boards = box.values
+        .where((model) => model.userId == userId)
+        .map(_convertToEntity)
+        .toList();
+    return boards;
   }
 
   @override
-  Future<void> deleteBoard(String boardId) {
-    throw UnimplementedError();
+  Future<void> cacheBoards(List<BoardEntity> boards) async {
+    final box = await hive.openBox<BoardHiveModel>(_boxName);
+    await box.addAll(boards.map(_convertToModel));
   }
 
   @override
-  Future<BoardEntity> updateBoard(BoardEntity board, String boardId) {
-    throw UnimplementedError();
+  Future<List<BoardEntity>> getUnsyncedBoards() async {
+    final box = await hive.openBox<BoardHiveModel>(_boxName);
+    return box.values
+        .where((model) => !model.isSynced)
+        .map(_convertToEntity)
+        .toList();
   }
 
-  @override
-  Future<List<BoardEntity>> getAllBoards() {
-    throw UnimplementedError();
-  }
+  BoardHiveModel _convertToModel(BoardEntity entity) => BoardHiveModel(
+        boardId: entity.boardId,
+        boardName: entity.boardName,
+        userId: entity.userId,
+        items: entity.items.map(_convertItemToModel).toList().cast<BoardItemHiveModel>(),
+        isFavorite: entity.isFavorite,
+        isSynced: entity.isSynced,
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
+      );
 
-  @override
-  Future<List<BoardEntity>> getBoard(String boardId) {
-    throw UnimplementedError();
-  }
+  BoardEntity _convertToEntity(BoardHiveModel model) => BoardEntity(
+        boardId: model.boardId,
+        boardName: model.boardName,
+        userId: model.userId,
+        items: model.items.map(_convertItemToEntity).toList(),
+        isFavorite: model.isFavorite,
+        isSynced: model.isSynced,
+        createdAt: model.createdAt,
+        updatedAt: model.updatedAt,
+      );
+  
+  BoardItemHiveModel _convertItemToModel(BoardItemEntity entity) => BoardItemHiveModel(
+        itemId: entity.itemId,
+        itemName: entity.itemName,
+        isCompleted: entity.isCompleted, content: '', positionX: null,
+      );
+
+  BoardItemEntity _convertItemToEntity(BoardItemHiveModel model) => BoardItemEntity(
+        itemId: model.itemId,
+        itemName: model.itemName,
+        isCompleted: model.isCompleted,
+      );
+
+  // Add similar conversion methods for BoardItem
 }

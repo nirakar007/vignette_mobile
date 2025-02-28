@@ -9,36 +9,74 @@ class BoardApiModel extends Equatable {
   @JsonKey(name: '_id')
   final String? boardId;
   final String boardName;
+  final String description;
+  final List<dynamic> items;
+  final String? userId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool isSynced;
+  final bool isFavorite;
 
-  const BoardApiModel({
-    this.boardId,
-    required this.boardName,
-  });
+  const BoardApiModel(
+      {this.boardId,
+      required this.boardName,
+      required this.description,
+      required this.items,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.isSynced,
+      required this.isFavorite,
+      this.userId});
 
-  const BoardApiModel.empty()
+  BoardApiModel.empty()
       : boardId = '',
-        boardName = '';
+        boardName = '',
+        description = '',
+        items = const [],
+        userId = '',
+        createdAt = DateTime.now(),
+        updatedAt = DateTime.now(),
+        isSynced = false,
+        isFavorite = false;
 
   //From Json,
   //Server => dart
   factory BoardApiModel.fromJson(Map<String, dynamic> json) {
     return BoardApiModel(
-      boardId: json['_id'],
-      boardName: json['courseName'],
+      boardId: json['boardId'],
+      boardName: json['boardName'],
+      description: json['description'],
+      items: json['items'],
+      userId: json['userId'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+      isSynced: json['isSynced'],
+      isFavorite: json['isFavorite'],
     );
   }
 
-  //To Json
+  //To Json`
   //dart => Server
-  Map<String, dynamic> toJson() {
-    return {
-      'boardName': boardName,
-    };
+  BoardEntity toJson() {
+    return BoardEntity(
+      boardName: boardName,
+      userId: userId ?? '',
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      isFavorite: isFavorite,
+      isSynced: isSynced,
+    );
   }
 
   //From Entity
   static BoardApiModel fromEntity(BoardEntity entity) => BoardApiModel(
         boardName: entity.boardName,
+        description: entity.description ?? '',
+        items: entity.items,
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
+        isSynced: entity.isSynced,
+        isFavorite: entity.isFavorite,
       );
 
   // To Entity
@@ -48,6 +86,7 @@ class BoardApiModel extends Equatable {
         userId: '',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        isFavorite: isFavorite,
       );
 
   //to Entity List
@@ -56,5 +95,15 @@ class BoardApiModel extends Equatable {
       models.map((model) => model.toEntity()).toList();
 
   @override
-  List<Object?> get props => [boardId, boardName];
+  List<Object?> get props => [
+        boardId,
+        boardName,
+        description,
+        items,
+        userId,
+        createdAt,
+        updatedAt,
+        isFavorite,
+        isSynced
+      ];
 }

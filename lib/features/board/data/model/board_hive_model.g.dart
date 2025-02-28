@@ -20,11 +20,12 @@ class BoardHiveModelAdapter extends TypeAdapter<BoardHiveModel> {
       boardId: fields[0] as String?,
       boardName: fields[1] as String,
       description: fields[2] as String?,
-      items: (fields[3] as List).cast<BoardItemHiveModel>(),
+      items: (fields[3] as List).cast<dynamic>(),
       userId: fields[4] as String?,
       createdAt: fields[5] as DateTime,
       updatedAt: fields[6] as DateTime,
       isSynced: fields[7] as bool,
+      isFavorite: fields[8] as bool,
     );
   }
 

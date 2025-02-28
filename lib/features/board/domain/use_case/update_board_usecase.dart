@@ -6,7 +6,7 @@ class UpdateBoardUseCase {
 
   UpdateBoardUseCase(this.repository);
 
-  Future<void> call(BoardEntity board) async {
-    await repository.updateBoard(board);
+  Future<void> call(BoardEntity board, String boardId) async {
+    await repository.updateBoard(board,boardId);
   }
 }

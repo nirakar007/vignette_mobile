@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:vignette__mobile/features/board/data/model/board_hive_model.dart';
-import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
+// import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
 import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart';
 
 abstract class BoardLocalDataSource {
@@ -46,7 +46,7 @@ class BoardLocalDataSourceImpl implements BoardLocalDataSource {
         boardId: entity.boardId,
         boardName: entity.boardName,
         userId: entity.userId,
-        items: entity.items.map(_convertItemToModel).toList().cast<BoardItemHiveModel>(),
+        items: entity.items,
         isFavorite: entity.isFavorite,
         isSynced: entity.isSynced,
         createdAt: entity.createdAt,
@@ -56,25 +56,24 @@ class BoardLocalDataSourceImpl implements BoardLocalDataSource {
   BoardEntity _convertToEntity(BoardHiveModel model) => BoardEntity(
         boardId: model.boardId,
         boardName: model.boardName,
-        userId: model.userId,
-        items: model.items.map(_convertItemToEntity).toList(),
+        userId: model.userId!,
+        items: model.items,
         isFavorite: model.isFavorite,
         isSynced: model.isSynced,
         createdAt: model.createdAt,
         updatedAt: model.updatedAt,
       );
-  
-  BoardItemHiveModel _convertItemToModel(BoardItemEntity entity) => BoardItemHiveModel(
-        itemId: entity.itemId,
-        itemName: entity.itemName,
-        isCompleted: entity.isCompleted, content: '', positionX: null,
-      );
 
-  BoardItemEntity _convertItemToEntity(BoardItemHiveModel model) => BoardItemEntity(
-        itemId: model.itemId,
-        itemName: model.itemName,
-        isCompleted: model.isCompleted,
-      );
-
+  BoardHiveModel _convertItemToModel(BoardEntity entity) => BoardHiveModel(
+      boardName: entity.boardName,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      isSynced: entity.isSynced,
+      isFavorite: entity.isFavorite);
+  BoardEntity _convertItemToEntity(BoardHiveModel model) => BoardEntity(
+      boardName: model.boardName,
+      userId: model.userId ?? '',
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt);
   // Add similar conversion methods for BoardItem
 }

@@ -8,14 +8,20 @@ class ApiEndpoints {
   static const String baseUrl = 'http://10.0.2.2:3001/api/v1/';
 
   // Board Routes ---------
-  static const String createBoard = "board/createBoard";
-  static const String getAllBoards = "board/getAllBoards";
+  static const String createBoard = "boards/createBoard";
+  static const String deleteBoard = "boards/deleteBoard";
+  static const String getBoard = "boards/getBoard/";
+  static const String getAllBoards = "boards/getBoards";
+  static const String toggleFavorite = "boards/toggleFavorite";
+  static const String updateBoard = "boards/updateBoard/";
+  static const String searchBoards = "boards/searchBoards/";
+  static const String exportBoard = "boards/exportBoard";
 
   // Auth Routes ---------
-  static const String login = "/api/v1/users/login";
-  static const String register = "/api/v1/users/register";
-  static const String updateStudent = "/api/v1/users/updateUser/";
-  static const String deleteStudent = "/api/v1/users/deleteUser/";
-  static const String uploadImage = "/api/v1/users/uploadImage";
+  static const String login = "users/login";
+  static const String register = "users/register";
+  static const String updateStudent = "users/updateUser/";
+  static const String deleteStudent = "users/deleteUser/";
+  static const String uploadImage = "users/uploadImage";
   static const String imageUrl = "http://10.0.2.2:3001/uploads/";
 }

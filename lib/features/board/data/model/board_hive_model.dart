@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
+// import 'package:vignette__mobile/features/board/data/model/board_item_hive_model.dart';
 import 'package:vignette__mobile/features/board/domain/entity/board_entity.dart';
 
 part 'board_hive_model.g.dart';
@@ -14,7 +14,7 @@ class BoardHiveModel extends Equatable {
   @HiveField(2)
   final String? description;
   @HiveField(3)
-  final List<BoardItemHiveModel> items;
+  final List<dynamic> items;
   @HiveField(4)
   final String? userId;
   @HiveField(5)
@@ -68,7 +68,7 @@ class BoardHiveModel extends Equatable {
       boardId: boardId,
       boardName: boardName,
       description: description,
-      items: BoardItemHiveModel.toEntityList(items),
+      items: BoardHiveModel.toEntityList(items.cast<String>()),
       userId: userId ?? '',
       createdAt: createdAt,
       updatedAt: updatedAt,

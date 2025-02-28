@@ -4,7 +4,7 @@ class BoardEntity extends Equatable {
   final String? boardId;
   final String boardName;
   final String? description;
-  final List<BoardItem> items;
+  final List<dynamic> items;
   final String userId;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -27,7 +27,7 @@ class BoardEntity extends Equatable {
     String? boardId,
     String? boardName,
     String? description,
-    List<BoardItem>? items,
+    List<dynamic>? items,
     String? userId,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -60,7 +60,9 @@ class BoardEntity extends Equatable {
         isSynced,
       ];
 
-  static Future<List<BoardEntity>> fromJson(json) {}
+  static Future<List<BoardEntity>> fromJson(json) async {
+    return [];
+  }
 }
 
 class BoardItem extends Equatable {

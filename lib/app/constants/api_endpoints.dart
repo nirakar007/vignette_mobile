@@ -19,6 +19,7 @@ class ApiEndpoints {
 
   // Auth Routes ---------
   static const String login = "users/login";
+  static const String logout = "users/logout";
   static const String register = "users/register";
   static const String updateStudent = "users/updateUser/";
   static const String deleteStudent = "users/deleteUser/";

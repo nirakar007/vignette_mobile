@@ -23,20 +23,20 @@ class AuthRemoteDataSource implements IAuthDataSource {
       var pic = user.profilePicture;
       Map<String, Object?> data;
       if (pic != null) {
-       data={  "username": user.username,
+        data = {
+          "username": user.username,
           "email": user.email,
           "password": user.password,
           "profilePicture": user.profilePicture,
           "boards": user.boards,
         };
-        
       } else {
-       data= {
+        data = {
           "username": user.username,
           "email": user.email,
           "password": user.password,
           "boards": user.boards,
-        }
+        };
       }
       Response response = await _dio.post(ApiEndpoints.register, data: data);
       if (response.statusCode == 201) {

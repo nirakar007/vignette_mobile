@@ -12,52 +12,49 @@ class BoardLocalRepositoryImpl implements BoardLocalRepository {
     return await localDataSource.getBoards(userId);
   }
 
- 
   @override
   Future<List<BoardEntity>> getUnsyncedBoards() async {
     return await localDataSource.getUnsyncedBoards();
   }
 
   @override
-  Future<void> updateSyncStatus(String localId, String remoteId) async {
-
-  }
+  Future<void> updateSyncStatus(String localId, String remoteId) async {}
 
   @override
   Future<void> syncData() async {
     // Local-specific sync logic
   }
-  
+
   @override
   Future<void> cacheRemoteBoards(List<BoardEntity> boards) {
     // TODO: implement cacheRemoteBoards
     throw UnimplementedError();
   }
-  
+
   @override
   Future<String> createBoard(BoardEntity board) {
     // TODO: implement createBoard
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> deleteBoard(String boardId) {
     // TODO: implement deleteBoard
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> syncBoards() {
     // TODO: implement syncBoards
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> toggleFavorite(String boardId, bool isFavorite) {
     // TODO: implement toggleFavorite
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> updateBoard(BoardEntity board, String boardId) {
     // TODO: implement updateBoard

@@ -5,7 +5,7 @@ class ApiEndpoints {
 
   static const Duration connectionTimeout = Duration(seconds: 1000);
   static const Duration receiveTimeout = Duration(seconds: 1000);
-  static const String baseUrl = 'http://10.0.2.2:3001/api/v1/';
+  static const String baseUrl = 'http://10.0.2.2:5000/api/v1/';
 
   // Board Routes ---------
   static const String createBoard = "boards/createBoard";
@@ -23,5 +23,5 @@ class ApiEndpoints {
   static const String updateStudent = "users/updateUser/";
   static const String deleteStudent = "users/deleteUser/";
   static const String uploadImage = "users/uploadImage";
-  static const String imageUrl = "http://10.0.2.2:3001/uploads/";
+  static const String imageUrl = "http://10.0.2.2:3000/uploads/";
 }

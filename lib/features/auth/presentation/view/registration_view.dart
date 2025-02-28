@@ -22,7 +22,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       TextEditingController(text: '');
   final _key = GlobalKey<FormState>();
 
-  File? _img;
+  static File? _img;
 
   Future _browseImage(ImageSource imageSource) async {
     try {
@@ -30,7 +30,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       if (image != null) {
         setState(() {
           _img = File(image.path);
+     print('HELLOUUU');
           context.read<RegisterBloc>().add(UploadImage(file: _img!));
+     
         });
       }
     } catch (e) {
@@ -133,6 +135,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         final registerState =
                             context.read<RegisterBloc>().state;
                         final imageName = registerState.imageName;
+                        print("VIEW MA IMAGE:: $_img");
+
                         context.read<RegisterBloc>().add(RegisterUser(
                             context: context,
                             email: _emailController.text,

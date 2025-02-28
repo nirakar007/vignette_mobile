@@ -63,12 +63,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     UploadImage event,
     Emitter<RegisterState> emit,
   ) async {
+    print('HELLOUUU BLOC:: ');
     emit(state.copyWith(isLoading: true));
+    print('HELLOUUU BLOC:: ');
     final result = await _uploadImageUseCase.call(
       UploadImageParams(
         file: event.file,
       ),
     );
+    print('HELLOUUU BLOC:: $result');
 
     result.fold(
       (l) => emit(state.copyWith(isLoading: false, isSuccess: false)),

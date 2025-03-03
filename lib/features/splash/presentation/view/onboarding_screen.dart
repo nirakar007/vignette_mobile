@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vignette__mobile/features/auth/presentation/view/login_view.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -26,8 +27,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ];
 
   void _onGetStarted() {
-    Navigator.pushReplacementNamed(
-        context, '/login'); // Replace with your login route
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
   }
 
   @override

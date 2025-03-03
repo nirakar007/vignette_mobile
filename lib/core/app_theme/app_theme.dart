@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
-      fontFamily: 'Montserrat-Regular',
+      fontFamily: 'Poppins-Regular',
       primarySwatch: Colors.blue,
       scaffoldBackgroundColor: Colors.grey[100],
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -15,7 +15,7 @@ ThemeData getApplicationTheme() {
           fontSize: 18,
           color: Colors.white,
           fontWeight: FontWeight.w700,
-          fontFamily: 'Montserrat-Regular',
+          fontFamily: 'Poppins-Bold',
         ),
         backgroundColor: const Color(0xFF6875C8),
         foregroundColor: Colors.white,

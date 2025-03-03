@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vignette__mobile/features/auth/presentation/view/login_view.dart';
 import 'package:vignette__mobile/features/auth/presentation/view_model/register/register_bloc.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _key = GlobalKey<FormState>();
 
   static File? _img;
+  final double _mobileBreakpoint = 600; // Adjust this based on your needs
 
   Future _browseImage(ImageSource imageSource) async {
     try {
@@ -30,9 +32,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       if (image != null) {
         setState(() {
           _img = File(image.path);
-     print('HELLOUUU');
+          print('HELLOUUU');
           context.read<RegisterBloc>().add(UploadImage(file: _img!));
-     
         });
       }
     } catch (e) {
@@ -43,10 +44,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Nirakar"),
-        centerTitle: true,
-      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -107,7 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: CircleAvatar(
                         backgroundImage: _img != null
                             ? FileImage(_img!)
-                            : const AssetImage('assets/images/profile.png')
+                            : const AssetImage('assets/images/profile.jpg')
                                 as ImageProvider,
                       ),
                     ),
@@ -147,6 +144,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: const Text("Register"),
                     ),
                   ),
+                  _buildRegisterSection(context),
                 ],
               ),
             ),
@@ -171,6 +169,48 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       ),
+    );
+  }
+
+  Widget _buildRegisterSection(BuildContext context) {
+    final bool isTablet =
+        MediaQuery.of(context).size.width >= _mobileBreakpoint;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Already have an account?",
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontSize: isTablet ? 16 : 14,
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            context.read<RegisterBloc>().add(
+                  NavigateLoginScreenEvent(
+                    destination: LoginScreen(),
+                    context: context,
+                  ),
+                );
+          },
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.blue,
+            padding: EdgeInsets.symmetric(
+              horizontal: isTablet ? 16 : 8,
+              vertical: isTablet ? 12 : 8,
+            ),
+          ),
+          child: Text(
+            "Login",
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: isTablet ? 16 : 14,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

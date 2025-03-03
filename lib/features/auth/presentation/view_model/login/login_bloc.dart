@@ -23,6 +23,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _homeCubit = homeCubit,
         _loginUseCase = loginUseCase,
         super(LoginState.initial()) {
+          
     on<NavigateRegisterScreenEvent>(
       (event, emit) {
         Navigator.push(

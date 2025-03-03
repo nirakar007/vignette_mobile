@@ -101,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 const Text(
-                  'Desk',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  'Boards',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                 ),
                 const Spacer(),
                 DropdownButton<String>(
@@ -263,6 +263,8 @@ void _handleDrawerItemClick(DrawerMenuItem item, BuildContext context) {
       break;
   }
 }
+
+
 
 class DrawerMenuItem {
   final String title;

@@ -59,6 +59,7 @@ dependencies:
   bloc: ^8.1.4
   test_cov_console: ^0.2.2
   mockito: ^5.4.5
+  http: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -102,15 +103,18 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Montserrat-Bold
+    - family: Poppins-Bold
       fonts:
-        - asset: assets/fonts/Montserrat-Bold.ttf
-    - family: Montserrat-Italic
+        - asset: assets/fonts/Poppins-Bold.ttf
+    - family: Poppins-ExtraBold
       fonts:
-        - asset: assets/fonts/Montserrat-Italic.ttf
-    - family: Montserrat-Regular
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+    - family: Poppins-Regular
       fonts:
-        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
         # - asset: fonts/Schyler-Italic.ttf
         #   style: italic
   #   - family: Trajan Pro

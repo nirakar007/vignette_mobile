@@ -2,7 +2,7 @@
 
 A note taking app.
 
-## UI screenshots of the porject:  
+## UI screenshots of the project:  
 ![Screenshot_1741213533](https://github.com/user-attachments/assets/2596e7c0-da1f-4da0-bc8b-6e89243b1072)
 ![Screenshot_1741213526](https://github.com/user-attachments/assets/f0263b33-5c6c-4758-9c74-28bad195cd2c)
 ![Screenshot_1741214873](https://github.com/user-attachments/assets/b7de2cfd-e526-4eda-92ec-31fa4f63117e)
